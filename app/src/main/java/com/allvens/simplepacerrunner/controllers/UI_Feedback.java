@@ -1,4 +1,4 @@
-package com.allvens.simplepacerrunner.timer;
+package com.allvens.simplepacerrunner.controllers;
 
 import android.widget.TextView;
 

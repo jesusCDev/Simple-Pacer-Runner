@@ -1,16 +1,16 @@
-package com.allvens.simplepacerrunner;
+package com.allvens.simplepacerrunner.controllers;
 
 public class Pacer {
 
-
-    final static int total_Stages = 21;
-    final static int[] levels = {7,8,8,9,9,10,10,11,11,11,12,12,13,13,13,14,14,15,15,16,16};
-    final static int[] time_PerLevel = {9000, 8000, 7580, 7200, 6860, 6550, 6260, 6000, 5760, 5540, 5330, 5140, 4970, 4800, 4650, 4500, 4360, 4240, 4110, 4000, 3890};
+    public final static int DISTANCE_RUN = 20; // meters
+    public final static int TOTAL_STAGES = 21;
+    private final static int[] levels = {7,8,8,9,9,10,10,11,11,11,12,12,13,13,13,14,14,15,15,16,16};
+    private final static int[] time_PerLevel = {9000, 8000, 7580, 7200, 6860, 6550, 6260, 6000, 5760, 5540, 5330, 5140, 4970, 4800, 4650, 4500, 4360, 4240, 4110, 4000, 3890};
 
     private int current_Stage = 0;
     private int current_LevelValue = levels[0];
 
-    private int current_LevelTracker = levels[0];
+    private int current_LevelTracker = 0;
 
     // LEVEL TRACKER
     public void set_CurrentLevelTracker(int value){
