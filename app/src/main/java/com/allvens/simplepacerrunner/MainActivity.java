@@ -3,10 +3,13 @@ package com.allvens.simplepacerrunner;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.allvens.simplepacerrunner.DataSession_Management.DataSession;
+import com.allvens.simplepacerrunner.DataSession_Management.DataSession_Wrapper;
 import com.allvens.simplepacerrunner.controllers.Pacer_Timer;
 import com.allvens.simplepacerrunner.controllers.UI_Feedback;
 
@@ -18,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     private Button btn_SettingsAndExit;
     private Button btn_PlayAndPause;
     private Button btn_LogAndSave;
+
+    private DataSession_Wrapper dbWrapper;
 
     private Pacer_Timer pt;
     private UI_Feedback ui;
@@ -33,6 +38,12 @@ public class MainActivity extends AppCompatActivity {
         tv_Time = findViewById(R.id.tv_Time);
         tv_Level = findViewById(R.id.tv_Level);
 
+        btn_SettingsAndExit = findViewById(R.id.btn_Home_SettingsAndExit);
+        btn_PlayAndPause = findViewById(R.id.btn_Home_PlayAndPause);
+        btn_LogAndSave = findViewById(R.id.btn_Home_LogAndSave);
+
+        dbWrapper = new DataSession_Wrapper(this);
+
         ui = new UI_Feedback();
         ui.set_Labels(tv_Stage, tv_Level, tv_Time);
 
@@ -40,13 +51,20 @@ public class MainActivity extends AppCompatActivity {
         pt.set_UIFeedBack(ui);
         pt.create_timer();
 
-        btn_SettingsAndExit = findViewById(R.id.btn_Home_SettingsAndExit);
-        btn_PlayAndPause = findViewById(R.id.btn_Home_PlayAndPause);
-        btn_LogAndSave = findViewById(R.id.btn_Home_LogAndSave);
-
         btn_PlayAndPause.setOnClickListener(btnAction_StartSession());
         change_btnActionToOutOfSession();
+    }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        dbWrapper.open();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        dbWrapper.close();
     }
 
     private View.OnClickListener btnAction_StartSession(){
@@ -75,14 +93,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                dbWrapper.open(); // TODO CHANGE THIS BACK TO CLOSE
             }
         });
         btn_LogAndSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                printDatabase();
+                dbWrapper.close();
             }
         });
+    }
+
+    private void printDatabase(){
+        for(DataSession session: dbWrapper.get_AllSessions()){
+            Log.d("Database","Session Id: " + session.getId());
+            Log.d("Database","Session Date: " + session.getDate());
+            Log.d("Database","Session Distance: " + session.getDistance());
+            Log.d("Database","Session Stage: " + session.getStage());
+            Log.d("Database","Session Level: " + session.getLevel());
+        }
     }
 
 
@@ -110,6 +140,9 @@ public class MainActivity extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                dbWrapper.create_Session(pt.get_Session());
+
                 reset_Screen(new Intent());
             }
         };

@@ -2,6 +2,10 @@ package com.allvens.simplepacerrunner.controllers;
 
 import android.os.Handler;
 
+import com.allvens.simplepacerrunner.DataSession_Management.DataSession;
+
+import java.util.Calendar;
+
 public class Pacer_Timer {
 
     private Handler timerHandler;
@@ -13,6 +17,11 @@ public class Pacer_Timer {
 
     public Pacer_Timer(){
         pacer = new Pacer();
+    }
+
+    public DataSession get_Session(){
+        return new DataSession(Calendar.getInstance().getTime().toString(), pacer.get_CurrentDistance(),
+                pacer.get_CurrentStage(), pacer.get_CurrentLevelTracker());
     }
 
     public void set_UIFeedBack(UI_Feedback ui){
