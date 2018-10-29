@@ -1,4 +1,4 @@
-package com.allvens.simplepacerrunner.DataSession_Management;
+package com.allvens.simplepacerrunner.session_data;
 
 public class DataSession {
 

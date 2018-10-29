@@ -1,6 +1,7 @@
 package com.allvens.simplepacerrunner;
 
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,8 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.allvens.simplepacerrunner.DataSession_Management.DataSession;
-import com.allvens.simplepacerrunner.DataSession_Management.DataSession_Wrapper;
+import com.allvens.simplepacerrunner.session_data.DataSession;
+import com.allvens.simplepacerrunner.session_data.DataSession_Wrapper;
 import com.allvens.simplepacerrunner.controllers.Pacer_Timer;
 import com.allvens.simplepacerrunner.controllers.UI_Feedback;
 
@@ -53,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
         btn_PlayAndPause.setOnClickListener(btnAction_StartSession());
         change_btnActionToOutOfSession();
+
+        // TODO FIND OUT WHY
+        PreferenceManager.setDefaultValues(this, R.xml.settings_screen, false);
     }
 
     @Override
@@ -92,8 +96,10 @@ public class MainActivity extends AppCompatActivity {
         btn_SettingsAndExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                dbWrapper.close();
 
-                dbWrapper.open(); // TODO CHANGE THIS BACK TO CLOSE
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
             }
         });
         btn_LogAndSave.setOnClickListener(new View.OnClickListener() {

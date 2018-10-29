@@ -1,17 +1,14 @@
-package com.allvens.simplepacerrunner.DataSession_Management;
+package com.allvens.simplepacerrunner.session_data;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DataSession_Wrapper {
-
-    private static final String TAG = DataSession_Wrapper.class.getSimpleName();
 
     private SQLiteDatabase database;
     private Database_SQLiteOpenHelper dbHelper;
@@ -22,14 +19,10 @@ public class DataSession_Wrapper {
 
     public void open(){
         this.database = dbHelper.getWritableDatabase();
-
-        Log.d(TAG, "DATABASE IS OPEN");
     }
 
     public void close(){
         dbHelper.close();
-
-        Log.d(TAG, "DATABASE IS CLOSE");
     }
 
     public void create_Session(DataSession session){
@@ -40,7 +33,6 @@ public class DataSession_Wrapper {
         values.put(DataSession_Contract.DataSession_Entry.COLUMN_DISTANCE, session.getDistance());
 
         long rowID = database.insert(DataSession_Contract.DataSession_Entry.TABLE_NAME, null, values);
-        Log.d(TAG, "Session with id: " + rowID);
     }
 
     public List<DataSession> get_AllSessions(){
@@ -79,7 +71,6 @@ public class DataSession_Wrapper {
         String[] selectionArgs = { String.valueOf(session.getId())};
 
         int count = database.update(DataSession_Contract.DataSession_Entry.TABLE_NAME, values, selection, selectionArgs);
-        Log.d(TAG, "Log Updated: " + count);
     }
 
     public void delete_Session(DataSession session){
@@ -87,11 +78,9 @@ public class DataSession_Wrapper {
         String[] selectionArgs = { String.valueOf(session.getId())};
 
         int count = database.delete(DataSession_Contract.DataSession_Entry.TABLE_NAME, selection, selectionArgs);
-        Log.d(TAG, "Log Deleted: " + count);
     }
 
     public void delete_AllSessions(){
         int count = database.delete(DataSession_Contract.DataSession_Entry.TABLE_NAME, null, null);
-        Log.d(TAG, "Log Deleted: " + count);
     }
 }

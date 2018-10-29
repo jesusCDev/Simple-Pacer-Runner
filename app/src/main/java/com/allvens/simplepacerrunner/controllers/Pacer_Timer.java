@@ -2,7 +2,7 @@ package com.allvens.simplepacerrunner.controllers;
 
 import android.os.Handler;
 
-import com.allvens.simplepacerrunner.DataSession_Management.DataSession;
+import com.allvens.simplepacerrunner.session_data.DataSession;
 
 import java.util.Calendar;
 

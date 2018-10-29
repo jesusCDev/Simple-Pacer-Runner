@@ -1,4 +1,4 @@
-package com.allvens.simplepacerrunner.DataSession_Management;
+package com.allvens.simplepacerrunner.session_data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

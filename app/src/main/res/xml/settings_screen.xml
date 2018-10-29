@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="sound_switch"
+        android:summary="Play sound when starting new level."
+        android:title="Play Sound" />
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="vibrate_switch"
+        android:summary="Vibrate when starting new level."
+        android:title="Vibrate" />
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="dark_mode_switch"
+        android:title="Dark Mode" />
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="meters_switch"
+        android:summary="Show metrics in meters instead of miles."
+        android:title="Meters" />
+</PreferenceScreen>
