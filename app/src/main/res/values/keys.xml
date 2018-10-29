@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="KEY_PREF_SOUND_SWITCH">sound_switch</string>
+    <string name="KEY_PREF_VIBRATE_SWITCH">vibrate_switch</string>
+    <string name="KEY_PREF_DARK_MODE_SWITCH">dark_mode_switch</string>
+    <string name="KEY_PREF_METERS_SWITCH">meters_switch</string>
+</resources>

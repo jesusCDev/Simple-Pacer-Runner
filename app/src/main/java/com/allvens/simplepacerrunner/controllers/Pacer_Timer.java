@@ -49,6 +49,10 @@ public class Pacer_Timer {
 
                 timerHandler.postDelayed(this, 100);
                 if(time_tracker < 0){
+
+                    ui.playSound();
+                    ui.vibrate();
+
                     if(pacer.get_CurrentStage() != 20 || pacer.get_CurrentLevelTracker() != 15){
                         if(pacer.get_CurrentLevelTracker() != pacer.get_CurrentLevelValue()){
                             pacer.set_CurrentLevelTracker((pacer.get_CurrentLevelTracker() + 1));
@@ -75,6 +79,10 @@ public class Pacer_Timer {
     }
 
     public void start_timer(){
+
+        ui.playSound();
+        ui.vibrate();
+
         startTime = System.currentTimeMillis();
         timerHandler.postDelayed(timerRunnable, 0);
     }

@@ -1,7 +1,9 @@
-package com.allvens.simplepacerrunner;
+package com.allvens.simplepacerrunner.settings;
 
 import android.os.Bundle;
 import android.support.v7.preference.PreferenceFragmentCompat;
+
+import com.allvens.simplepacerrunner.R;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
     @Override

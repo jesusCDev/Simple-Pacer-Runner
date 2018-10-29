@@ -1,7 +1,11 @@
 package com.allvens.simplepacerrunner;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.allvens.simplepacerrunner.permission_manager.Permission_Checker;
 import com.allvens.simplepacerrunner.session_data.DataSession;
 import com.allvens.simplepacerrunner.session_data.DataSession_Wrapper;
 import com.allvens.simplepacerrunner.controllers.Pacer_Timer;
@@ -16,6 +21,7 @@ import com.allvens.simplepacerrunner.controllers.UI_Feedback;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ConstraintLayout cl_home_background;
     private TextView tv_Stage;
     private TextView tv_Time;
     private TextView tv_Level;
@@ -35,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Permission_Checker pc = new Permission_Checker(this);
+        pc.checkPermissionsOther();
+
         tv_Stage = findViewById(R.id.tv_Stage);
         tv_Time = findViewById(R.id.tv_Time);
         tv_Level = findViewById(R.id.tv_Level);
@@ -43,10 +52,14 @@ public class MainActivity extends AppCompatActivity {
         btn_PlayAndPause = findViewById(R.id.btn_Home_PlayAndPause);
         btn_LogAndSave = findViewById(R.id.btn_Home_LogAndSave);
 
+        cl_home_background = findViewById(R.id.cl_home_background);
+
         dbWrapper = new DataSession_Wrapper(this);
 
         ui = new UI_Feedback();
         ui.set_Labels(tv_Stage, tv_Level, tv_Time);
+        ui.set_Vibrator((Vibrator) getSystemService(Context.VIBRATOR_SERVICE));
+        ui.set_SharedPreferences(android.support.v7.preference.PreferenceManager.getDefaultSharedPreferences(this));
 
         pt = new Pacer_Timer();
         pt.set_UIFeedBack(ui);
@@ -102,11 +115,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         btn_LogAndSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 printDatabase();
                 dbWrapper.close();
+
+                Intent intent = new Intent(MainActivity.this, LogActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -137,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                reset_Screen(new Intent());
+                reset_Screen();
             }
         };
     }
@@ -146,15 +163,13 @@ public class MainActivity extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 dbWrapper.create_Session(pt.get_Session());
-
-                reset_Screen(new Intent());
+                reset_Screen();
             }
         };
     }
 
-    private void reset_Screen(Intent intent){
+    private void reset_Screen(){
         btn_PlayAndPause.setText("Play");
         tracker_pause = false;
         pt.stop_timer();
