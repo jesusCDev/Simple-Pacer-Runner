@@ -45,7 +45,8 @@ public class Pacer_Timer {
                 long seconds = (time_tracker / 1000);
 
                 // update ui
-                ui.set_Time(seconds + "." + (time_tracker - (seconds * 1000)));
+//                ui.set_Time(seconds + "." + (time_tracker - (seconds * 1000)));
+                ui.set_Time(seconds, (time_tracker - (seconds * 1000)));
 
                 timerHandler.postDelayed(this, 100);
                 if(time_tracker < 0){
@@ -69,6 +70,7 @@ public class Pacer_Timer {
                         create_timer();
                         start_timer();
                     }else{
+                        ui.set_Screen(UI_Feedback.FINISHED_SCREEN);
                         stop_timer();
                     }
                 }
@@ -80,6 +82,7 @@ public class Pacer_Timer {
 
     public void start_timer(){
 
+        ui.set_Screen(UI_Feedback.RUNNING_SCREEN);
         ui.playSound();
         ui.vibrate();
 

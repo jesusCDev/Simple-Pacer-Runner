@@ -13,10 +13,13 @@ import com.allvens.simplepacerrunner.settings.Settings_Values;
 
 public class UI_Feedback {
 
+    public final static int RUNNING_SCREEN = 0;
+    public final static int COUNTDOWN_SCREEN = 1;
+    public final static int FINISHED_SCREEN = 2;
+
     private TextView tv_stage;
     private TextView tv_level;
     private TextView tv_time;
-
 
     private ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
     private Vibrator v;
@@ -24,6 +27,14 @@ public class UI_Feedback {
 
     public void set_Vibrator(Vibrator v){
         this.v = v;
+    }
+
+    public void set_Screen(int screen){
+        if(screen == 0){
+
+        }else if(screen == 1){
+
+        }
     }
 
     public void set_SharedPreferences(SharedPreferences sharedPrefs){
@@ -44,8 +55,15 @@ public class UI_Feedback {
         tv_level.setText("Level: " + str);
     }
 
-    public void set_Time(String str){
-        tv_time.setText(str);
+    public void set_Time(long seconds, long miliSec){
+        tv_time.setText(seconds + "." + fix_Time(miliSec));
+    }
+
+    private String fix_Time(long mili){
+        if(Long.toString(mili).length() < 3){
+            return mili + "0";
+        }
+        return Long.toString(mili);
     }
 
     public void playSound(){
@@ -64,5 +82,11 @@ public class UI_Feedback {
               v.vibrate(500);
            }
         }
+    }
+
+    public void totalReset_ScreenText(){
+        tv_level.setText("Level: 1");
+        tv_stage.setText("Stage: 1");
+        tv_time.setText("0.0");
     }
 }

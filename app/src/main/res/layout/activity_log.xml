@@ -1,14 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<android.support.v7.widget.LinearLayoutCompat
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
+    android:weightSum="4"
     android:layout_height="match_parent">
 
-    <ListView
-        android:id="@+id/lv_Log_Charts"
-        android:layout_width="395dp"
-        android:layout_height="587dp"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp" />
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:orientation="vertical">
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/lc_log_Sessions"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></com.github.mikephil.charting.charts.LineChart>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_weight="2"
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_Log_BestRun"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Total Distance Cover:" />
+
+        <TextView
+            android:id="@+id/tv_Log_TotalRuns"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Total Sessions Ran:"/>
+
+        <TextView
+            android:id="@+id/tv_Log_TotalRuns2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Best Run:" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_Log_SelectSelection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="btnAction_SelectSession"
+                android:text="Select Session" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="btnAction_EditSelectedSelection"
+                    android:text="Edit" />
+
+                <Button
+                    android:id="@+id/button2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="btnAction_DeleteSelectedSection"
+                    android:text="Delete" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Session Date:" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Session Stage:" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Session Level:" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Session Distance:" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.v7.widget.LinearLayoutCompat>
