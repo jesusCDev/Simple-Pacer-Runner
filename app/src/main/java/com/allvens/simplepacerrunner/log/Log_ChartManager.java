@@ -1,7 +1,6 @@
 package com.allvens.simplepacerrunner.log;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 
 import com.allvens.simplepacerrunner.R;
@@ -28,6 +27,9 @@ public class Log_ChartManager {
         lc.clear();
     }
 
+    /**
+     * Sets up basic chart values
+     */
     public void setUp_ChartValues() {
         lc.setDragEnabled(false);
         lc.setScaleEnabled(false);
@@ -35,7 +37,6 @@ public class Log_ChartManager {
     }
 
     public void create_Chart(ArrayList<Log_DataEntry> currentWeekData){
-        ArrayList<Entry> yValues = create_Entries(currentWeekData);
 
         lc.getXAxis().setDrawLabels(false);
         lc.getXAxis().setTextColor(ContextCompat.getColor(context, R.color.silver_fox));
@@ -44,8 +45,10 @@ public class Log_ChartManager {
         lc.getLegend().setTextColor(ContextCompat.getColor(context, R.color.silver_fox));
         lc.getDescription().setEnabled(false);
 
+        ArrayList<Entry> yValues = create_Entries(currentWeekData);
         LineDataSet set = new LineDataSet(yValues, "Last 20 Sessions - Meters");
         set.setCircleColor(ContextCompat.getColor(context, R.color.silver_fox));
+        set.setValueTextColor(ContextCompat.getColor(context, R.color.silver_fox));
         set.setFillAlpha(110);
         set.setColor(ContextCompat.getColor(context, R.color.colorAccent));
         set.setLineWidth(3f);
@@ -59,6 +62,11 @@ public class Log_ChartManager {
         lc.setData(data);
     }
 
+    /**
+     * Creates Entries for chart
+     * @param currentWeekData
+     * @return Entry List
+     */
     private ArrayList<Entry> create_Entries(ArrayList<Log_DataEntry> currentWeekData){
         ArrayList<Entry> yValues = new ArrayList<>();
         for(Log_DataEntry entry: currentWeekData){

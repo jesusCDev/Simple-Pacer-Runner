@@ -57,6 +57,8 @@ public class LogActivity extends AppCompatActivity {
         tv_log_CurrentSessionLevel = findViewById(R.id.tv_log_CurrentSessionLevel);
         tv_log_CurrentSessionDistance = findViewById(R.id.tv_log_CurrentSessionDistance);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         /********** Data Management **********/
         logActivityManager = new LogActivity_Manager();
         logActivityManager.set_DataSessionContext(this);
