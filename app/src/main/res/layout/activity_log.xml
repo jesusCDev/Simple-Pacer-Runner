@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.LinearLayoutCompat
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:id="@+id/ll_Log_Background"
     android:weightSum="4"
-    android:layout_height="match_parent">
+    app:dividerPadding="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,89 +23,125 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_weight="2"
-        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="2"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_Log_BestRun"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Total Distance Cover:" />
-
-        <TextView
-            android:id="@+id/tv_Log_TotalRuns"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Total Sessions Ran:"/>
-
-        <TextView
-            android:id="@+id/tv_Log_TotalRuns2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Best Run:" />
-
         <LinearLayout
+            android:id="@+id/linearLayout3"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/btn_Log_SelectSelection"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="btnAction_SelectSession"
-                android:text="Select Session" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:onClick="btnAction_EditSelectedSelection"
-                    android:text="Edit" />
-
-                <Button
-                    android:id="@+id/button2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:onClick="btnAction_DeleteSelectedSection"
-                    android:text="Delete" />
-            </LinearLayout>
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/tv_Log_TotalDistanceCover"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Session Date:" />
+                android:paddingBottom="5dp"
+                android:text="@string/log_TotalDistance"
+                android:textColor="@color/silver_fox"
+                android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/tv_Log_TotalRuns"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Session Stage:" />
+                android:paddingBottom="5dp"
+                android:text="@string/log_SessionsRan"
+                android:textColor="@color/silver_fox"
+                android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/tv_Log_BestRun"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Session Level:" />
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Session Distance:" />
+                android:paddingBottom="5dp"
+                android:text="Best Run:"
+                android:textColor="@color/silver_fox"
+                android:textSize="20sp" />
 
         </LinearLayout>
 
+        <Button
+            android:id="@+id/btn_Log_SelectSelection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/session_button"
+            android:onClick="btnAction_SelectSession"
+            android:text="Select Session"
+            android:paddingBottom="5dp"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold" />
+
+        <TextView
+            android:paddingTop="10dp"
+            android:paddingBottom="5dp"
+            android:id="@+id/tv_log_CurrentSessionDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Session Date:"
+            android:textColor="@color/silver_fox"
+            android:textSize="20sp" />
+
+        <TextView
+            android:paddingBottom="5dp"
+            android:id="@+id/tv_log_CurrentSessionStage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Session Stage:"
+            android:textColor="@color/silver_fox"
+            android:textSize="20sp" />
+
+        <TextView
+            android:paddingBottom="5dp"
+            android:id="@+id/tv_log_CurrentSessionLevel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Session Level:"
+            android:textColor="@color/silver_fox"
+            android:textSize="20sp" />
+
+        <TextView
+            android:paddingBottom="5dp"
+            android:id="@+id/tv_log_CurrentSessionDistance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Session Distance:"
+            android:textColor="@color/silver_fox"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_Log_EditSelection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:onClick="btnAction_EditSelectedSelection"
+                android:text="Edit"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btn_Log_DeleteSelection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:onClick="btnAction_DeleteSelectedSection"
+                android:text="Delete"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+        </LinearLayout>
+
     </LinearLayout>
+
 </android.support.v7.widget.LinearLayoutCompat>

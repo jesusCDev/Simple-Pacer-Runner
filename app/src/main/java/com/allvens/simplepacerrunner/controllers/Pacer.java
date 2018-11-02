@@ -12,6 +12,10 @@ public class Pacer {
 
     private int current_LevelTracker = 0;
 
+    public int[] get_levels(){
+        return levels;
+    }
+
     // LEVEL TRACKER
     public void set_CurrentLevelTracker(int value){
         current_LevelTracker = value;

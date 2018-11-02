@@ -2,11 +2,10 @@ package com.allvens.simplepacerrunner.log;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 
+import com.allvens.simplepacerrunner.R;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.components.LimitLine;
-import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -24,10 +23,14 @@ public class Log_ChartManager {
         this.lc = lc;
     }
 
-    public void setUp_ChartValues() {
-        lc.setDragEnabled(true);
-        lc.setScaleEnabled(false);
+    public void reset_Chart(){
+        lc.invalidate();
+        lc.clear();
+    }
 
+    public void setUp_ChartValues() {
+        lc.setDragEnabled(false);
+        lc.setScaleEnabled(false);
         lc.getAxisRight().setEnabled(false);
     }
 
@@ -35,11 +38,16 @@ public class Log_ChartManager {
         ArrayList<Entry> yValues = create_Entries(currentWeekData);
 
         lc.getXAxis().setDrawLabels(false);
+        lc.getXAxis().setTextColor(ContextCompat.getColor(context, R.color.silver_fox));
+        lc.getAxisLeft().setTextColor(ContextCompat.getColor(context, R.color.silver_fox));
 
-        LineDataSet set = new LineDataSet(yValues, "This Weeks Sessions");
+        lc.getLegend().setTextColor(ContextCompat.getColor(context, R.color.silver_fox));
+        lc.getDescription().setEnabled(false);
 
+        LineDataSet set = new LineDataSet(yValues, "Last 20 Sessions - Meters");
+        set.setCircleColor(ContextCompat.getColor(context, R.color.silver_fox));
         set.setFillAlpha(110);
-        set.setColor(Color.BLUE);
+        set.setColor(ContextCompat.getColor(context, R.color.colorAccent));
         set.setLineWidth(3f);
         set.setValueTextSize(10f);
 

@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.LinearLayoutCompat
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cl_home_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
-    android:weightSum="4"
+    android:background="@color/colorPrimaryDark"
     android:orientation="vertical"
+    android:padding="10dp"
+    android:weightSum="2"
     tools:context=".MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="3"
+        android:layout_weight="1"
         android:gravity="center_vertical"
         android:orientation="vertical">
 
@@ -22,7 +23,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="0.00"
-            android:textSize="100sp"
+            android:textColor="@color/colorAccent"
+            android:textSize="150sp"
             android:textStyle="bold" />
 
         <TextView
@@ -30,44 +32,62 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Stage: 0"
-            android:textSize="30sp" />
+            android:textColor="@android:color/white"
+            android:textSize="50sp" />
 
         <TextView
             android:id="@+id/tv_Level"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Level: 0"
-            android:textSize="30sp" />
+            android:textColor="@color/silver_fox"
+            android:textSize="50sp" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal|center"
         android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:foregroundGravity="center_vertical|center_horizontal|center"
+        android:gravity="center_vertical">
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_Home_SettingsAndExit"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            android:text="Settings" />
+            android:adjustViewBounds="true"
+            android:backgroundTint="@android:color/transparent"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_settings_black_24dp" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_Home_PlayAndPause"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            android:text="Play" />
+            android:adjustViewBounds="true"
+            android:backgroundTint="@android:color/transparent"
+            android:cropToPadding="false"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_play_circle_filled_white_24dp" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_Home_LogAndSave"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
             android:layout_weight="1"
-            android:text="Log" />
+            android:adjustViewBounds="true"
+            android:backgroundTint="@android:color/transparent"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_log_24dp" />
+
     </LinearLayout>
 
 </android.support.v7.widget.LinearLayoutCompat>

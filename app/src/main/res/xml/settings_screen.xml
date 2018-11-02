@@ -10,13 +10,4 @@
         android:key="@string/KEY_PREF_VIBRATE_SWITCH"
         android:summary="Vibrate when starting new level."
         android:title="Vibrate" />
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="@string/KEY_PREF_DARK_MODE_SWITCH"
-        android:title="Dark Mode" />
-    <SwitchPreference
-        android:defaultValue="true"
-        android:key="@string/KEY_PREF_METERS_SWITCH"
-        android:summary="Show metrics in meters instead of miles."
-        android:title="Meters" />
 </PreferenceScreen>

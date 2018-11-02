@@ -8,6 +8,8 @@ public class DataSession {
     private int stage;
     private int level;
 
+    public DataSession(){}
+
     public DataSession(String date, long distance, int stage, int level){
         this.date = date;
         this.distance = distance;
