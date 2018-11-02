@@ -22,7 +22,7 @@ public class LogActivity extends AppCompatActivity {
     private TextView tv_Log_TotalRuns;
     private TextView tv_Log_BestRun;
     private Button btn_Log_SelectSession;
-    private Button btn_Log_EditSelection;
+    private Button btn_Log_DeleteAllSessions;
     private Button btn_Log_DeleteSelection;
 
     private TextView tv_log_CurrentSessionDate;
@@ -49,7 +49,7 @@ public class LogActivity extends AppCompatActivity {
         tv_Log_TotalRuns = findViewById(R.id.tv_Log_TotalRuns);
         tv_Log_BestRun = findViewById(R.id.tv_Log_BestRun);
         btn_Log_SelectSession = findViewById(R.id.btn_Log_SelectSelection);
-        btn_Log_EditSelection = findViewById(R.id.btn_Log_EditSelection);
+        btn_Log_DeleteAllSessions = findViewById(R.id.btn_Log_DeleteAllSessions);
         btn_Log_DeleteSelection = findViewById(R.id.btn_Log_DeleteSelection);
 
         tv_log_CurrentSessionDate = findViewById(R.id.tv_log_CurrentSessionDate);
@@ -78,9 +78,9 @@ public class LogActivity extends AppCompatActivity {
 
     private void update_Totals(){
         if(logActivityManager.check_ifEmptySessionsLogged()) {
-            tv_Log_BestRun.setText("Best Run: " + logActivityManager.get_BestRun());
-            tv_Log_TotalDistanceCover.setText("Total Distance Ran: " + logActivityManager.get_TotalDistance() + " meters");
-            tv_Log_TotalRuns.setText("Total Runs: " + logActivityManager.get_TotalRun());
+            tv_Log_BestRun.setText(this.getResources().getString(R.string.log_BestSessions) + " " + logActivityManager.get_BestRun());
+            tv_Log_TotalDistanceCover.setText(this.getResources().getString(R.string.log_TotalDistance) + " " + logActivityManager.get_TotalDistance() + " meters");
+            tv_Log_TotalRuns.setText(this.getResources().getString(R.string.log_SessionsRan) + " " + logActivityManager.get_TotalRun());
         }
     }
 
@@ -94,10 +94,10 @@ public class LogActivity extends AppCompatActivity {
         if(logActivityManager.check_ifEmptySessionsLogged()) {
             DataSession currentDataSession = logActivityManager.get_Session(currentSessionID);
 
-            tv_log_CurrentSessionDate.setText("Session Date: " + currentDataSession.getDate());
-            tv_log_CurrentSessionStage.setText("Session Stage: " + (currentDataSession.getStage() + 1));
-            tv_log_CurrentSessionLevel.setText("Session Level: " + (currentDataSession.getLevel() + 1));
-            tv_log_CurrentSessionDistance.setText("Session Distance: " + currentDataSession.getDistance() + " meters");
+            tv_log_CurrentSessionDate.setText(this.getResources().getString(R.string.log_SelectSessionDate) + " " + currentDataSession.getDate());
+            tv_log_CurrentSessionStage.setText(this.getResources().getString(R.string.log_SelectSessionStage) + " " + (currentDataSession.getStage() + 1));
+            tv_log_CurrentSessionLevel.setText(this.getResources().getString(R.string.log_SelectSessionLevel) + " " + (currentDataSession.getLevel() + 1));
+            tv_log_CurrentSessionDistance.setText(this.getResources().getString(R.string.log_SelectSessionDistance) + " " + currentDataSession.getDistance() + " meters");
 
             btn_Log_SelectSession.setText(currentDataSession.getDate());
 
@@ -109,18 +109,19 @@ public class LogActivity extends AppCompatActivity {
 
     private void reset_AllValues(){
         btn_Log_SelectSession.setEnabled(false);
-        btn_Log_EditSelection.setEnabled(false);
+        btn_Log_DeleteAllSessions.setEnabled(false);
         btn_Log_DeleteSelection.setEnabled(false);
 
 
-        tv_Log_BestRun.setText("Best Run: None");
-        tv_Log_TotalDistanceCover.setText("Total Distance Ran: 0 meters");
-        tv_Log_TotalRuns.setText("Total Runs: 0");
+        tv_Log_BestRun.setText(this.getResources().getString(R.string.log_BestSessions) + " None");
+        tv_Log_TotalDistanceCover.setText(this.getResources().getString(R.string.log_TotalDistance) + " 0 meters");
+        tv_Log_TotalRuns.setText(this.getResources().getString(R.string.log_SessionsRan) + " 0");
 
-        tv_log_CurrentSessionDate.setText("Session Date: None");
-        tv_log_CurrentSessionStage.setText("Session Stage: None");
-        tv_log_CurrentSessionLevel.setText("Session Level: None");
-        tv_log_CurrentSessionDistance.setText("Session Distance: 0 meters");
+
+        tv_log_CurrentSessionDate.setText(this.getResources().getString(R.string.log_SelectSessionDate) + " None");
+        tv_log_CurrentSessionStage.setText(this.getResources().getString(R.string.log_SelectSessionStage) + " None");
+        tv_log_CurrentSessionLevel.setText(this.getResources().getString(R.string.log_SelectSessionLevel) + " None");
+        tv_log_CurrentSessionDistance.setText(this.getResources().getString(R.string.log_SelectSessionDistance) + " : 0 meters");
     }
 
     /****************************************
@@ -129,7 +130,7 @@ public class LogActivity extends AppCompatActivity {
     public void btnAction_SelectSession(View view){
         AlertDialog.Builder builder = new AlertDialog.Builder(LogActivity.this);
 
-        builder.setTitle("Select Session");
+        builder.setTitle(this.getResources().getString(R.string.log_SelectSession));
         builder.setItems(logActivityManager.get_AllSessionsNames(), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 currentSessionID = logActivityManager.set_CurrentSession(which);
@@ -139,10 +140,11 @@ public class LogActivity extends AppCompatActivity {
         builder.create().show();
     }
 
-    public void btnAction_EditSelectedSelection(View view){
+    public void btnAction_DeleteAllSessions(View view){
         if(logActivityManager.check_ifEmptySessionsLogged()){
-            // todo edit session empty
-            logActivityManager.edit_Session(logActivityManager.get_Session(currentSessionID));
+            for(DataSession session: logActivityManager.get_AllSessions()){
+                logActivityManager.delete_Session(session);
+            }
             update_CurrentSessionUI(currentSessionID);
         }
     }

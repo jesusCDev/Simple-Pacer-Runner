@@ -38,8 +38,7 @@ public class LogActivity_Manager {
             iter = (dsWrapper.get_AllSessions().size() - 20);
         }
         for(int i = iter; i < dsWrapper.get_AllSessions().size(); i++){
-            dataEntry.add(new Log_DataEntry(i, dsWrapper.get_AllSessions().get(i).getDistance(),
-                    "Session"));
+            dataEntry.add(new Log_DataEntry(i, dsWrapper.get_AllSessions().get(i).getDistance()));
         }
         return dataEntry;
     }
@@ -72,10 +71,6 @@ public class LogActivity_Manager {
         dsWrapper.delete_Session(session);
     }
 
-    public void edit_Session(DataSession session){
-
-    }
-
     /****************************************
      /**** UI DATA
      ****************************************/
@@ -94,9 +89,8 @@ public class LogActivity_Manager {
 
     public String get_BestRun(){
 
-        // todo for somereason this is returing null value
         int bestDistance = 0;
-        DataSession sessionSaved = new DataSession();
+        DataSession sessionSaved = dsWrapper.get_AllSessions().get(0);
 
         for(DataSession session: dsWrapper.get_AllSessions()){
             if(session.getDistance() > bestDistance){
@@ -106,13 +100,5 @@ public class LogActivity_Manager {
         }
 
         return sessionSaved.getDate();
-    }
-
-    private Boolean check_IfLastRunIsTheSame(int pos, String value){
-        return false;
-    }
-
-    private String check_ForBestRun(int startingPos){
-        return "";
     }
 }

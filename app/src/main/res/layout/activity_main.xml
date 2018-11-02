@@ -31,7 +31,7 @@
             android:id="@+id/tv_Stage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Stage: 0"
+            android:text="@string/home_Stage"
             android:textColor="@android:color/white"
             android:textSize="50sp" />
 
@@ -39,7 +39,7 @@
             android:id="@+id/tv_Level"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Level: 0"
+            android:text="@string/home_Level"
             android:textColor="@color/silver_fox"
             android:textSize="50sp" />
     </LinearLayout>

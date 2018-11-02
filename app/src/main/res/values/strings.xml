@@ -1,6 +1,17 @@
 <resources>
     <string name="app_name">Simple Pacer Runner</string>
 
+    <string name="home_Stage">Stage:</string>
+    <string name="home_Level">Level:</string>
+
     <string name="log_TotalDistance">Total Distance Cover:</string>
     <string name="log_SessionsRan">Total Sessions Ran:</string>
+    <string name="log_BestSessions">Best Session:</string>
+    <string name="log_SelectSession">Select Session</string>
+    <string name="log_SelectSessionDate">Session Date:</string>
+    <string name="log_SelectSessionStage">Session Stage:</string>
+    <string name="log_SelectSessionLevel">Session Level:</string>
+    <string name="log_SelectSessionDistance">Session Distance:</string>
+    <string name="log_DeleteAllSessions">Hard Reset</string>
+    <string name="log_DeleteSession">Delete</string>
 </resources>

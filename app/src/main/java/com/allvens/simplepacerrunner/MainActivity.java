@@ -2,17 +2,13 @@ package com.allvens.simplepacerrunner;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.allvens.simplepacerrunner.permission_manager.Permission_Checker;
@@ -60,10 +56,11 @@ public class MainActivity extends AppCompatActivity {
         dbWrapper = new DataSession_Wrapper(this);
 
         ui = new UI_Feedback(cl_home_background);
+        ui.set_Context(this);
         ui.set_Labels(tv_Stage, tv_Level, tv_Time);
         ui.set_Vibrator((Vibrator) getSystemService(Context.VIBRATOR_SERVICE));
         ui.set_SharedPreferences(android.support.v7.preference.PreferenceManager.getDefaultSharedPreferences(this));
-        ui.set_Screen(UI_Feedback.COUNTDOWN_SCREEN);
+        ui.totalReset_ScreenText();
 
         pt = new Pacer_Timer();
         pt.set_UIFeedBack(ui);
@@ -72,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
         btn_PlayAndPause.setOnClickListener(btnAction_StartSession());
         change_btnActionToOutOfSession();
 
-        // TODO FIND OUT WHY
         PreferenceManager.setDefaultValues(this, R.xml.settings_screen, false);
     }
 
@@ -93,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(!tracker_pause){
-                    ui.set_Screen(UI_Feedback.RUNNING_SCREEN);
                     btn_PlayAndPause.setImageResource(R.drawable.ic_pause_circle_filled_white_24dp);
                     pt.start_timer();
                     change_btnActionToInSession();
@@ -161,7 +156,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void reset_Screen(){
-        ui.set_Screen(UI_Feedback.COUNTDOWN_SCREEN);
         btn_PlayAndPause.setImageResource(R.drawable.ic_play_circle_filled_white_24dp);
         tracker_pause = false;
         pt.stop_timer();

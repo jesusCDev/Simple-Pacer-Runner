@@ -4,12 +4,10 @@ public class Log_DataEntry {
 
     private float position;
     private float value;
-    private String name;
 
-    public Log_DataEntry(int position, float value, String name){
+    public Log_DataEntry(int position, float value){
         this.position = position;
         this.value = value;
-        this.name = name;
     }
 
 
@@ -19,14 +17,6 @@ public class Log_DataEntry {
 
     public void setPosition(float position) {
         this.position = position;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public float getValue() {

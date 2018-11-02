@@ -2,24 +2,19 @@ package com.allvens.simplepacerrunner.controllers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.support.v7.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.widget.TextView;
 
+import com.allvens.simplepacerrunner.R;
 import com.allvens.simplepacerrunner.settings.Settings_Values;
 
 public class UI_Feedback {
-
-    public final static int RUNNING_SCREEN = 0;
-    public final static int COUNTDOWN_SCREEN = 1;
-    public final static int FINISHED_SCREEN = 2;
-
     private LinearLayoutCompat cl_home_background;
 
     private TextView tv_stage;
@@ -29,23 +24,18 @@ public class UI_Feedback {
     private ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
     private Vibrator v;
     private SharedPreferences sharedPrefs;
+    private Context context;
 
     public UI_Feedback(LinearLayoutCompat cl_home_background){
         this.cl_home_background = cl_home_background;
     }
 
-    public void set_Vibrator(Vibrator v){
-        this.v = v;
+    public void set_Context(Context context){
+        this.context = context;
     }
 
-    public void set_Screen(int screen){
-        if(screen == 0){
-//            cl_home_background.setBackgroundColor(getResources().getColor(R.color.idname));
-        }else if(screen == 1){
-//            cl_home_background.setBackgroundColor(Color.DKGRAY);
-        }else{
-//            cl_home_background.setBackgroundColor(Color.DKGRAY);
-        }
+    public void set_Vibrator(Vibrator v){
+        this.v = v;
     }
 
     public void set_SharedPreferences(SharedPreferences sharedPrefs){
@@ -59,11 +49,11 @@ public class UI_Feedback {
     }
 
     public void set_Stage(String str){
-        tv_stage.setText("Stage: " + str);
+        tv_stage.setText(context.getResources().getString(R.string.home_Stage) + str);
     }
 
     public void set_Level(String str){
-        tv_level.setText("Level: " + str);
+        tv_level.setText(context.getResources().getString(R.string.home_Level) + str);
     }
 
     public void set_Time(long seconds, long miliSec){
@@ -96,8 +86,8 @@ public class UI_Feedback {
     }
 
     public void totalReset_ScreenText(){
-        tv_level.setText("Level: 1");
-        tv_stage.setText("Stage: 1");
+        tv_stage.setText(context.getResources().getString(R.string.home_Stage) + " 1");
+        tv_level.setText(context.getResources().getString(R.string.home_Level) + " 1");
         tv_time.setText("0.0");
     }
 }

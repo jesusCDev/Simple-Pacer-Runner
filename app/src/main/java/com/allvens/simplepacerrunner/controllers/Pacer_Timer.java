@@ -70,7 +70,6 @@ public class Pacer_Timer {
                         create_timer();
                         start_timer();
                     }else{
-                        ui.set_Screen(UI_Feedback.FINISHED_SCREEN);
                         stop_timer();
                     }
                 }
@@ -81,8 +80,6 @@ public class Pacer_Timer {
     }
 
     public void start_timer(){
-
-        ui.set_Screen(UI_Feedback.RUNNING_SCREEN);
         ui.playSound();
         ui.vibrate();
 

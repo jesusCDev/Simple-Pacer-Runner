@@ -60,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="5dp"
-                android:text="Best Run:"
+                android:text="@string/log_BestSessions"
                 android:textColor="@color/silver_fox"
                 android:textSize="20sp" />
 
@@ -72,45 +72,45 @@
             android:layout_height="wrap_content"
             android:background="@drawable/session_button"
             android:onClick="btnAction_SelectSession"
-            android:text="Select Session"
             android:paddingBottom="5dp"
+            android:text="@string/log_SelectSession"
             android:textColor="@color/colorAccent"
             android:textStyle="bold" />
 
         <TextView
-            android:paddingTop="10dp"
-            android:paddingBottom="5dp"
             android:id="@+id/tv_log_CurrentSessionDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Session Date:"
+            android:paddingBottom="5dp"
+            android:paddingTop="10dp"
+            android:text="@string/log_SelectSessionDate"
             android:textColor="@color/silver_fox"
             android:textSize="20sp" />
 
         <TextView
-            android:paddingBottom="5dp"
             android:id="@+id/tv_log_CurrentSessionStage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Session Stage:"
+            android:paddingBottom="5dp"
+            android:text="@string/log_SelectSessionStage"
             android:textColor="@color/silver_fox"
             android:textSize="20sp" />
 
         <TextView
-            android:paddingBottom="5dp"
             android:id="@+id/tv_log_CurrentSessionLevel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Session Level:"
+            android:paddingBottom="5dp"
+            android:text="@string/log_SelectSessionLevel"
             android:textColor="@color/silver_fox"
             android:textSize="20sp" />
 
         <TextView
-            android:paddingBottom="5dp"
             android:id="@+id/tv_log_CurrentSessionDistance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Session Distance:"
+            android:paddingBottom="5dp"
+            android:text="@string/log_SelectSessionDistance"
             android:textColor="@color/silver_fox"
             android:textSize="20sp" />
 
@@ -120,13 +120,13 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btn_Log_EditSelection"
+                android:id="@+id/btn_Log_DeleteAllSessions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:onClick="btnAction_EditSelectedSelection"
-                android:text="Edit"
+                android:onClick="btnAction_DeleteAllSessions"
+                android:text="@string/log_DeleteAllSessions"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
 
@@ -137,7 +137,7 @@
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:onClick="btnAction_DeleteSelectedSection"
-                android:text="Delete"
+                android:text="@string/log_DeleteSession"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
         </LinearLayout>
