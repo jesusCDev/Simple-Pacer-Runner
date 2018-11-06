@@ -1,6 +1,7 @@
-package com.allvens.simplepacerrunner.controllers;
+package com.allvens.simplepacerrunner.home;
 
 import android.os.Handler;
+import android.provider.Contacts;
 
 import com.allvens.simplepacerrunner.session_data.DataSession;
 
@@ -70,6 +71,7 @@ public class Pacer_Timer {
                         create_timer();
                         start_timer();
                     }else{
+                        ui.set_Screen(UI_Feedback.SCREEN_STARTING_DONE);
                         stop_timer();
                     }
                 }
@@ -92,6 +94,10 @@ public class Pacer_Timer {
     }
 
     public void stop_timer(){
-        timerHandler.removeCallbacks(timerRunnable);
+        try{
+            timerHandler.removeCallbacks(timerRunnable);
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
     }
 }

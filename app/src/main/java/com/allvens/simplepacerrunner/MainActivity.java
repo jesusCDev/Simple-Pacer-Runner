@@ -6,23 +6,18 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import com.allvens.simplepacerrunner.permission_manager.Permission_Checker;
 import com.allvens.simplepacerrunner.session_data.DataSession_Wrapper;
-import com.allvens.simplepacerrunner.controllers.Pacer_Timer;
-import com.allvens.simplepacerrunner.controllers.UI_Feedback;
+import com.allvens.simplepacerrunner.home.Pacer_Timer;
+import com.allvens.simplepacerrunner.home.UI_Feedback;
 
 public class MainActivity extends AppCompatActivity {
 
-    private LinearLayoutCompat cl_home_background;
-
-    private TextView tv_Stage;
-    private TextView tv_Time;
-    private TextView tv_Level;
+    private LinearLayout ll_home_TimerPresentation;
 
     private ImageButton btn_SettingsAndExit;
     private ImageButton btn_PlayAndPause;
@@ -43,11 +38,7 @@ public class MainActivity extends AppCompatActivity {
         Permission_Checker pc = new Permission_Checker(this);
         pc.checkPermissionsOther();
 
-        cl_home_background = findViewById(R.id.cl_home_background);
-
-        tv_Stage = findViewById(R.id.tv_Stage);
-        tv_Time = findViewById(R.id.tv_Time);
-        tv_Level = findViewById(R.id.tv_Level);
+        ll_home_TimerPresentation = findViewById(R.id.ll_home_TimerPresentation);
 
         btn_SettingsAndExit = findViewById(R.id.btn_Home_SettingsAndExit);
         btn_PlayAndPause = findViewById(R.id.btn_Home_PlayAndPause);
@@ -55,21 +46,32 @@ public class MainActivity extends AppCompatActivity {
 
         dbWrapper = new DataSession_Wrapper(this);
 
-        ui = new UI_Feedback(cl_home_background);
+        ui = new UI_Feedback(ll_home_TimerPresentation);
         ui.set_Context(this);
-        ui.set_Labels(tv_Stage, tv_Level, tv_Time);
         ui.set_Vibrator((Vibrator) getSystemService(Context.VIBRATOR_SERVICE));
         ui.set_SharedPreferences(android.support.v7.preference.PreferenceManager.getDefaultSharedPreferences(this));
-        ui.totalReset_ScreenText();
 
         pt = new Pacer_Timer();
         pt.set_UIFeedBack(ui);
-        pt.create_timer();
 
-        btn_PlayAndPause.setOnClickListener(btnAction_StartSession());
         change_btnActionToOutOfSession();
 
         PreferenceManager.setDefaultValues(this, R.xml.settings_screen, false);
+    }
+
+    private void btnAction_StartCountDown(){
+        btn_PlayAndPause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ui.start_CountDown(pt);
+
+                tracker_pause = !tracker_pause;
+                btn_PlayAndPause.setImageResource(R.drawable.ic_pause_circle_filled_white_24dp);
+                change_btnActionToInSession();
+
+                btnAction_StartSession();
+            }
+        });
     }
 
     @Override
@@ -84,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
         dbWrapper.close();
     }
 
-    private View.OnClickListener btnAction_StartSession(){
-        return new View.OnClickListener() {
+    private void btnAction_StartSession(){
+        btn_PlayAndPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(!tracker_pause){
@@ -98,11 +100,13 @@ public class MainActivity extends AppCompatActivity {
                 }
                 tracker_pause = !tracker_pause;
             }
-        };
+        });
     }
 
     private void change_btnActionToOutOfSession(){
-        ui.totalReset_ScreenText();
+        ui.cancel_CountdownTimer();
+        btnAction_StartCountDown();
+        ui.set_Screen(UI_Feedback.SCREEN_STARTING_COUNTDOWN);
 
         btn_LogAndSave.setImageResource(R.drawable.ic_log_24dp);
         btn_SettingsAndExit.setImageResource(R.drawable.ic_settings_black_24dp);

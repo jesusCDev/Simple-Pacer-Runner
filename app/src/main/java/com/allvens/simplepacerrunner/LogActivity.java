@@ -58,6 +58,8 @@ public class LogActivity extends AppCompatActivity {
         tv_log_CurrentSessionDistance = findViewById(R.id.tv_log_CurrentSessionDistance);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        btn_Log_DeleteSelection.setEnabled(false);
+        btn_Log_DeleteAllSessions.setEnabled(false);
 
         /********** Data Management **********/
         logActivityManager = new LogActivity_Manager();
@@ -75,7 +77,6 @@ public class LogActivity extends AppCompatActivity {
         /********** UI Look **********/
         currentSessionID = logActivityManager.set_CurrentSession(logActivityManager.get_AllSessions().size());
 
-        update_CurrentSessionUI(currentSessionID - 1);
     }
 
     private void update_Totals(){
@@ -101,7 +102,7 @@ public class LogActivity extends AppCompatActivity {
             tv_log_CurrentSessionLevel.setText(this.getResources().getString(R.string.log_SelectSessionLevel) + " " + (currentDataSession.getLevel() + 1));
             tv_log_CurrentSessionDistance.setText(this.getResources().getString(R.string.log_SelectSessionDistance) + " " + currentDataSession.getDistance() + " meters");
 
-            btn_Log_SelectSession.setText(currentDataSession.getDate());
+            btn_Log_SelectSession.setText("Sessions: " + currentDataSession.getDate());
 
             update_Totals();
         }else{
@@ -130,11 +131,15 @@ public class LogActivity extends AppCompatActivity {
      /**** Button Actions
      ****************************************/
     public void btnAction_SelectSession(View view){
+
         AlertDialog.Builder builder = new AlertDialog.Builder(LogActivity.this);
 
         builder.setTitle(this.getResources().getString(R.string.log_SelectSession));
         builder.setItems(logActivityManager.get_AllSessionsNames(), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
+                btn_Log_DeleteSelection.setEnabled(true);
+                btn_Log_DeleteAllSessions.setEnabled(true);
+
                 currentSessionID = logActivityManager.set_CurrentSession(which);
                 update_CurrentSessionUI(currentSessionID);
             }
