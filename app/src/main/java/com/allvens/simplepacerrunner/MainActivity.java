@@ -1,14 +1,19 @@
 package com.allvens.simplepacerrunner;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.allvens.simplepacerrunner.permission_manager.Permission_Checker;
 import com.allvens.simplepacerrunner.session_data.DataSession_Wrapper;
@@ -29,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private UI_Feedback ui;
 
     private boolean tracker_pause = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +69,9 @@ public class MainActivity extends AppCompatActivity {
         btn_PlayAndPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ui.start_CountDown(pt);
+                ui.start_CountDown(pt, btn_LogAndSave, btn_PlayAndPause);
+                btn_LogAndSave.setEnabled(false);
+                btn_PlayAndPause.setEnabled(false);
 
                 tracker_pause = !tracker_pause;
                 btn_PlayAndPause.setImageResource(R.drawable.ic_pause_circle_filled_white_24dp);
@@ -72,18 +80,6 @@ public class MainActivity extends AppCompatActivity {
                 btnAction_StartSession();
             }
         });
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        dbWrapper.open();
-    }
-
-    @Override
-    public void onPause(){
-        super.onPause();
-        dbWrapper.close();
     }
 
     private void btnAction_StartSession(){
@@ -104,6 +100,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void change_btnActionToOutOfSession(){
+
+        btn_PlayAndPause.setEnabled(true);
+        btn_LogAndSave.setEnabled(true);
         ui.cancel_CountdownTimer();
         btnAction_StartCountDown();
         ui.set_Screen(UI_Feedback.SCREEN_STARTING_COUNTDOWN);
@@ -164,7 +163,18 @@ public class MainActivity extends AppCompatActivity {
         tracker_pause = false;
         pt.stop_timer();
         pt.reset_timer();
-        pt.create_timer();
         change_btnActionToOutOfSession();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        dbWrapper.open();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        dbWrapper.close();
     }
 }

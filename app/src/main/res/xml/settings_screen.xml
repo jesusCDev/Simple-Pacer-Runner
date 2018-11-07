@@ -3,11 +3,13 @@
     <SwitchPreference
         android:defaultValue="true"
         android:key="@string/KEY_PREF_SOUND_SWITCH"
+        android:onClick="checkPermissions"
         android:summary="Play sound when starting new level."
         android:title="Play Sound" />
     <SwitchPreference
         android:defaultValue="true"
         android:key="@string/KEY_PREF_VIBRATE_SWITCH"
+        android:onClick="checkPermissions"
         android:summary="Vibrate when starting new level."
         android:title="Vibrate" />
 </PreferenceScreen>

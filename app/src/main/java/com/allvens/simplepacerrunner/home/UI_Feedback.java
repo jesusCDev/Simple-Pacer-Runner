@@ -8,8 +8,9 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.support.v7.widget.LinearLayoutCompat;
-import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -47,7 +48,7 @@ public class UI_Feedback {
         }
     }
 
-    public void start_CountDown(final Pacer_Timer pt){
+    public void start_CountDown(final Pacer_Timer pt, final ImageButton btn_LogAndSave, final ImageButton btn_PlayAndPause){
 
         final long startTime = System.currentTimeMillis();
 
@@ -62,9 +63,13 @@ public class UI_Feedback {
                 long seconds = (time_tracker / 1000);
 
                 tv_startAndCountDown.setText(Long.toString(seconds + 1));
+                playSound();
 
                 timerHandler.postDelayed(this, 1000);
                 if(time_tracker < 0){
+                    playStartSound();
+                    btn_LogAndSave.setEnabled(true);
+                    btn_PlayAndPause.setEnabled(true);
 
                     set_Screen(SCREEN_STARTING_RUNNING);
 
@@ -88,13 +93,18 @@ public class UI_Feedback {
         }else{
             create_FinishedScreen();
         }
+
     }
 
     private void create_FinishedScreen(){
         clear_Layout();
 
         tv_finished = new TextView(context);
-        tv_finished.setText("Finished!");
+        tv_finished.setText(context.getResources().getString(R.string.home_Finished));
+        tv_finished.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+
+        setStyle(tv_finished, R.style.TS_StartingCountDown_Ending);
+
         ll_home_TimerPresentation.addView(tv_finished);
     }
 
@@ -105,16 +115,32 @@ public class UI_Feedback {
         tv_stage = new TextView(context);
         tv_level = new TextView(context);
 
+        setStyle(tv_time, R.style.TS_Running_Time);
+        setStyle(tv_stage, R.style.TS_Running_Stage);
+        setStyle(tv_level, R.style.TS_Running_Level);
+
         ll_home_TimerPresentation.addView(tv_time);
         ll_home_TimerPresentation.addView(tv_stage);
         ll_home_TimerPresentation.addView(tv_level);
+    }
+
+    private void setStyle(TextView tv, int style){
+        if (Build.VERSION.SDK_INT < 23) {
+            tv.setTextAppearance(context, style);
+        } else {
+            tv.setTextAppearance(style);
+        }
     }
 
     private void create_StartingCountdownScreen(){
         clear_Layout();
 
         tv_startAndCountDown = new TextView(context);
-        tv_startAndCountDown.setText("Start");
+        tv_startAndCountDown.setText(context.getResources().getString(R.string.home_Start));
+        tv_startAndCountDown.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+
+        setStyle(tv_startAndCountDown, R.style.TS_StartingCountDown_Title);
+
         ll_home_TimerPresentation.addView(tv_startAndCountDown);
     }
 
@@ -138,18 +164,12 @@ public class UI_Feedback {
         this.sharedPrefs = sharedPrefs;
     }
 
-    public void set_Labels(TextView tv_stage, TextView tv_level, TextView tv_time) {
-        this.tv_stage = tv_stage;
-        this.tv_level = tv_level;
-        this.tv_time = tv_time;
-    }
-
     public void set_Stage(String str){
-        tv_stage.setText(context.getResources().getString(R.string.home_Stage) + str);
+        tv_stage.setText(context.getResources().getString(R.string.home_Stage) + " " + str);
     }
 
     public void set_Level(String str){
-        tv_level.setText(context.getResources().getString(R.string.home_Level) + str);
+        tv_level.setText(context.getResources().getString(R.string.home_Level) + " " + str);
     }
 
     public void set_Time(long seconds, long miliSec){
@@ -169,6 +189,12 @@ public class UI_Feedback {
         }
     }
 
+    public void playStartSound(){
+        if(sharedPrefs.getBoolean(Settings_Values.KEY_PREF_SOUND_SWITCH, true)){
+            toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 100);
+        }
+    }
+
     public void vibrate(){
         if(sharedPrefs.getBoolean(Settings_Values.KEY_PREF_VIBRATE_SWITCH, true)){
            // Vibrate for 500 milliseconds
@@ -179,11 +205,5 @@ public class UI_Feedback {
               v.vibrate(500);
            }
         }
-    }
-
-    public void totalReset_ScreenText(){
-        tv_stage.setText(context.getResources().getString(R.string.home_Stage) + " 1");
-        tv_level.setText(context.getResources().getString(R.string.home_Level) + " 1");
-        tv_time.setText("0.0");
     }
 }

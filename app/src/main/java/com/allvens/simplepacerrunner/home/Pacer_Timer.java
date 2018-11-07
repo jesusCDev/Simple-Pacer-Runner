@@ -1,8 +1,6 @@
 package com.allvens.simplepacerrunner.home;
 
 import android.os.Handler;
-import android.provider.Contacts;
-
 import com.allvens.simplepacerrunner.session_data.DataSession;
 
 import java.util.Calendar;
@@ -46,7 +44,6 @@ public class Pacer_Timer {
                 long seconds = (time_tracker / 1000);
 
                 // update ui
-//                ui.set_Time(seconds + "." + (time_tracker - (seconds * 1000)));
                 ui.set_Time(seconds, (time_tracker - (seconds * 1000)));
 
                 timerHandler.postDelayed(this, 100);

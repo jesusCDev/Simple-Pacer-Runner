@@ -1,5 +1,6 @@
 package com.allvens.simplepacerrunner.permission_manager;
 
+import android.Manifest;
 import android.Manifest.permission;
 import android.app.Activity;
 import android.content.Context;
@@ -17,7 +18,6 @@ public class Permission_Checker {
     }
 
     public void checkPermissions(){
-
         if (ContextCompat.checkSelfPermission(context, MODIFY_AUDIO_SETTINGS)
                 != PackageManager.PERMISSION_GRANTED) {
             // Permission is not granted

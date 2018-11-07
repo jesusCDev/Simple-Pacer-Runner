@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">Simple Pacer Runner</string>
 
+    <string name="home_Start">Start</string>
     <string name="home_Stage">Stage:</string>
     <string name="home_Level">Level:</string>
+    <string name="home_Finished">Finished</string>
 
     <string name="log_TotalDistance">Total Distance Cover:</string>
     <string name="log_SessionsRan">Total Sessions Ran:</string>
