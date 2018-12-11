@@ -8,124 +8,63 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.allvens.simplepacerrunner.log.Log_ChartManager;
 import com.allvens.simplepacerrunner.log.LogActivity_Manager;
 import com.allvens.simplepacerrunner.session_data.DataSession;
 import com.github.mikephil.charting.charts.LineChart;
 
 public class LogActivity extends AppCompatActivity {
 
-    private LinearLayoutCompat ll_Log_Background;
-    private TextView tv_Log_TotalDistanceCover;
-    private TextView tv_Log_TotalRuns;
-    private TextView tv_Log_BestRun;
-    private Button btn_Log_SelectSession;
-    private Button btn_Log_DeleteAllSessions;
-    private Button btn_Log_DeleteSelection;
 
-    private TextView tv_log_CurrentSessionDate;
-    private TextView tv_log_CurrentSessionStage;
-    private TextView tv_log_CurrentSessionLevel;
-    private TextView tv_log_CurrentSessionDistance;
-
-    private LogActivity_Manager logActivityManager;
-    private int currentSessionID;
-
-    private LineChart lc_log_Sessions;
-    private Log_ChartManager lineChartManager;
-
+    private LogActivity_Manager manager;
     private DataSession unchangedSession;
+    private LinearLayout ll_Log_Background;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ll_Log_Background = findViewById(R.id.ll_Log_Background);
 
-        tv_Log_TotalDistanceCover = findViewById(R.id.tv_Log_TotalDistanceCover);
-        tv_Log_TotalRuns = findViewById(R.id.tv_Log_TotalRuns);
-        tv_Log_BestRun = findViewById(R.id.tv_Log_BestRun);
-        btn_Log_SelectSession = findViewById(R.id.btn_Log_SelectSelection);
-        btn_Log_DeleteAllSessions = findViewById(R.id.btn_Log_DeleteAllSessions);
-        btn_Log_DeleteSelection = findViewById(R.id.btn_Log_DeleteSelection);
+        TextView tv_Log_TotalDistanceCover = findViewById(R.id.tv_Log_TotalDistanceCover);
+        TextView tv_Log_TotalRuns = findViewById(R.id.tv_Log_TotalRuns);
+        TextView tv_Log_BestRun = findViewById(R.id.tv_Log_BestRun);
 
-        tv_log_CurrentSessionDate = findViewById(R.id.tv_log_CurrentSessionDate);
-        tv_log_CurrentSessionStage = findViewById(R.id.tv_log_CurrentSessionStage);
-        tv_log_CurrentSessionLevel = findViewById(R.id.tv_log_CurrentSessionLevel);
-        tv_log_CurrentSessionDistance = findViewById(R.id.tv_log_CurrentSessionDistance);
+        Button btn_Log_SelectSession = findViewById(R.id.btn_Log_SelectSelection);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        btn_Log_DeleteSelection.setEnabled(false);
-        btn_Log_DeleteAllSessions.setEnabled(false);
+        TextView tv_log_CurrentSessionDate = findViewById(R.id.tv_log_CurrentSessionDate);
+        TextView tv_log_CurrentSessionStage = findViewById(R.id.tv_log_CurrentSessionStage);
+        TextView tv_log_CurrentSessionLevel = findViewById(R.id.tv_log_CurrentSessionLevel);
+        TextView tv_log_CurrentSessionDistance = findViewById(R.id.tv_log_CurrentSessionDistance);
 
-        /********** Data Management **********/
-        logActivityManager = new LogActivity_Manager();
-        logActivityManager.set_DataSessionContext(this);
-        logActivityManager.set_SharedPreferences(android.support.v7.preference.PreferenceManager.getDefaultSharedPreferences(this));
+        LineChart lc_log_Sessions = findViewById(R.id.lc_log_Sessions);
 
+        /********** Manager **********/
+        manager = new LogActivity_Manager(this);
+        manager.set_CurrentSelectedEntryToNull();
 
-        /********** Line Chart **********/
-        lc_log_Sessions = findViewById(R.id.lc_log_Sessions);
-        lineChartManager = new Log_ChartManager(lc_log_Sessions, this);
-        lineChartManager.setUp_ChartValues();
-        lineChartManager.create_Chart(logActivityManager.get_ChartData());
-
-
-        /********** UI Look **********/
-        currentSessionID = logActivityManager.set_CurrentSession(logActivityManager.get_AllSessions().size());
-
+        manager.setUp_LogActivity_UIManager(this, lc_log_Sessions, tv_Log_BestRun, tv_Log_TotalDistanceCover,
+                tv_Log_TotalRuns, tv_log_CurrentSessionDate, tv_log_CurrentSessionStage, tv_log_CurrentSessionLevel, tv_log_CurrentSessionDistance,
+                btn_Log_SelectSession);
     }
 
-    private void update_Totals(){
-        if(logActivityManager.check_ifEmptySessionsLogged()) {
-            tv_Log_BestRun.setText(this.getResources().getString(R.string.log_BestSessions) + " " + logActivityManager.get_BestRun());
-            tv_Log_TotalDistanceCover.setText(this.getResources().getString(R.string.log_TotalDistance) + " " + logActivityManager.get_TotalDistance() + " meters");
-            tv_Log_TotalRuns.setText(this.getResources().getString(R.string.log_SessionsRan) + " " + logActivityManager.get_TotalRun());
-        }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        manager.open_Database();
     }
 
-    private void update_CurrentSessionUI(int currentSessionID){
-        this.currentSessionID = currentSessionID;
-
-        lineChartManager.reset_Chart();
-        lineChartManager.setUp_ChartValues();
-        lineChartManager.create_Chart(logActivityManager.get_ChartData());
-
-        if(logActivityManager.check_ifEmptySessionsLogged()) {
-            DataSession currentDataSession = logActivityManager.get_Session(currentSessionID);
-
-            tv_log_CurrentSessionDate.setText(this.getResources().getString(R.string.log_SelectSessionDate) + " " + currentDataSession.getDate());
-            tv_log_CurrentSessionStage.setText(this.getResources().getString(R.string.log_SelectSessionStage) + " " + (currentDataSession.getStage() + 1));
-            tv_log_CurrentSessionLevel.setText(this.getResources().getString(R.string.log_SelectSessionLevel) + " " + (currentDataSession.getLevel() + 1));
-            tv_log_CurrentSessionDistance.setText(this.getResources().getString(R.string.log_SelectSessionDistance) + " " + currentDataSession.getDistance() + " meters");
-
-            btn_Log_SelectSession.setText("Sessions: " + currentDataSession.getDate());
-
-            update_Totals();
-        }else{
-            reset_AllValues();
-        }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        manager.close_Database();
     }
 
-    private void reset_AllValues(){
-        btn_Log_SelectSession.setEnabled(false);
-        btn_Log_DeleteAllSessions.setEnabled(false);
-        btn_Log_DeleteSelection.setEnabled(false);
-
-
-        tv_Log_BestRun.setText(this.getResources().getString(R.string.log_BestSessions) + " None");
-        tv_Log_TotalDistanceCover.setText(this.getResources().getString(R.string.log_TotalDistance) + " 0 meters");
-        tv_Log_TotalRuns.setText(this.getResources().getString(R.string.log_SessionsRan) + " 0");
-
-
-        tv_log_CurrentSessionDate.setText(this.getResources().getString(R.string.log_SelectSessionDate) + " None");
-        tv_log_CurrentSessionStage.setText(this.getResources().getString(R.string.log_SelectSessionStage) + " None");
-        tv_log_CurrentSessionLevel.setText(this.getResources().getString(R.string.log_SelectSessionLevel) + " None");
-        tv_log_CurrentSessionDistance.setText(this.getResources().getString(R.string.log_SelectSessionDistance) + " : 0 meters");
-    }
 
     /****************************************
      /**** Button Actions
@@ -135,45 +74,49 @@ public class LogActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(LogActivity.this);
 
         builder.setTitle(this.getResources().getString(R.string.log_SelectSession));
-        builder.setItems(logActivityManager.get_AllSessionsNames(), new DialogInterface.OnClickListener() {
+        builder.setItems(manager.get_AllSessionsNames(), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                btn_Log_DeleteSelection.setEnabled(true);
-                btn_Log_DeleteAllSessions.setEnabled(true);
+                manager.set_CurrentEntry(which);
 
-                currentSessionID = logActivityManager.set_CurrentSession(which);
-                update_CurrentSessionUI(currentSessionID);
+                manager.update_Screen(false);
             }
         });
         builder.create().show();
     }
 
     public void btnAction_DeleteAllSessions(View view){
-        if(logActivityManager.check_ifEmptySessionsLogged()){
-            for(DataSession session: logActivityManager.get_AllSessions()){
-                logActivityManager.delete_Session(session);
-            }
-            update_CurrentSessionUI(currentSessionID);
+        if(manager.get_CurrentSelectedEntry() != null){
+            manager.delete_AllSessions();
+            manager.set_CurrentSelectedEntryToNull();
+
+            manager.update_Screen(true);
+        }else{
+            new Toast(this).makeText(this,"No Data to Delete", Toast.LENGTH_SHORT).show();
         }
     }
 
+    // todo undo in the same pos (save values and put them in specific pos of database)
     public void btnAction_DeleteSelectedSection(View view) {
-        if(logActivityManager.check_ifEmptySessionsLogged()){
 
-            unchangedSession = logActivityManager.get_Session(currentSessionID);
+        if(manager.get_CurrentSelectedEntry() != null){
+            unchangedSession = manager.get_CurrentSelectedEntry();
 
-            logActivityManager.delete_Session(logActivityManager.get_Session(currentSessionID));
-            update_CurrentSessionUI(0);
+            manager.delete_Session();
+            manager.update_Screen(true);
 
             Snackbar snackbar = Snackbar
                     .make(ll_Log_Background, unchangedSession.getDate() + " Session Deleted.", Snackbar.LENGTH_LONG)
                     .setAction("undo", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            logActivityManager.add_Session(unchangedSession);
-                            update_CurrentSessionUI(0);
+                            manager.add_Session(unchangedSession);
+
+                            manager.update_Screen(true);
                         }
                     });
             snackbar.show();
+        }else{
+            new Toast(this).makeText(this,"No Data to Delete", Toast.LENGTH_SHORT).show();
         }
     }
 }

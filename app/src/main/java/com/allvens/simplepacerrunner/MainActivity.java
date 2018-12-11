@@ -1,19 +1,14 @@
 package com.allvens.simplepacerrunner;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.allvens.simplepacerrunner.permission_manager.Permission_Checker;
 import com.allvens.simplepacerrunner.session_data.DataSession_Wrapper;

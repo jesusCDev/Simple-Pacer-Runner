@@ -12,12 +12,12 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.util.ArrayList;
 
-public class Log_ChartManager {
+public class LineChart_Manager {
 
     private LineChart lc;
     private Context context;
 
-    public Log_ChartManager(LineChart lc, Context context) {
+    public LineChart_Manager(LineChart lc, Context context) {
         this.context = context;
         this.lc = lc;
     }
@@ -27,9 +27,6 @@ public class Log_ChartManager {
         lc.clear();
     }
 
-    /**
-     * Sets up basic chart values
-     */
     public void setUp_ChartValues() {
         lc.setDragEnabled(false);
         lc.setScaleEnabled(false);
@@ -39,16 +36,16 @@ public class Log_ChartManager {
     public void create_Chart(ArrayList<Log_DataEntry> currentWeekData){
 
         lc.getXAxis().setDrawLabels(false);
-        lc.getXAxis().setTextColor(ContextCompat.getColor(context, R.color.silver_fox));
-        lc.getAxisLeft().setTextColor(ContextCompat.getColor(context, R.color.silver_fox));
+        lc.getXAxis().setTextColor(ContextCompat.getColor(context, R.color.focusAccent));
+        lc.getAxisLeft().setTextColor(ContextCompat.getColor(context, R.color.focusAccent));
 
-        lc.getLegend().setTextColor(ContextCompat.getColor(context, R.color.silver_fox));
+        lc.getLegend().setTextColor(ContextCompat.getColor(context, R.color.focusAccent));
         lc.getDescription().setEnabled(false);
 
         ArrayList<Entry> yValues = create_Entries(currentWeekData);
         LineDataSet set = new LineDataSet(yValues, "Last 20 Sessions - Meters");
-        set.setCircleColor(ContextCompat.getColor(context, R.color.silver_fox));
-        set.setValueTextColor(ContextCompat.getColor(context, R.color.silver_fox));
+        set.setCircleColor(ContextCompat.getColor(context, R.color.focusAccent));
+        set.setValueTextColor(ContextCompat.getColor(context, R.color.focusAccent));
         set.setFillAlpha(110);
         set.setColor(ContextCompat.getColor(context, R.color.colorAccent));
         set.setLineWidth(3f);

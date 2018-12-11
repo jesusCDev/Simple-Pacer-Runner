@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -63,11 +62,11 @@ public class UI_Feedback {
                 long seconds = (time_tracker / 1000);
 
                 tv_startAndCountDown.setText(Long.toString(seconds + 1));
-                playSound();
+                play_basicSound();
 
                 timerHandler.postDelayed(this, 1000);
                 if(time_tracker < 0){
-                    playStartSound();
+                    play_StartEndSound();
                     btn_LogAndSave.setEnabled(true);
                     btn_PlayAndPause.setEnabled(true);
 
@@ -183,13 +182,13 @@ public class UI_Feedback {
         return Long.toString(mili);
     }
 
-    public void playSound(){
+    public void play_basicSound(){
         if(sharedPrefs.getBoolean(Settings_Values.KEY_PREF_SOUND_SWITCH, true)){
             toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 100);
         }
     }
 
-    public void playStartSound(){
+    public void play_StartEndSound(){
         if(sharedPrefs.getBoolean(Settings_Values.KEY_PREF_SOUND_SWITCH, true)){
             toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 100);
         }

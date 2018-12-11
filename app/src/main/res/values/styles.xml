@@ -31,7 +31,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/silver_fox</item>
+        <item name="android:textColor">@color/focusAccent</item>
         <item name="android:textSize">50sp</item>
     </style>
     <style name="TS_Running_Level">

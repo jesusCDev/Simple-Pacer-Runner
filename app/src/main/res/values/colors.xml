@@ -3,5 +3,9 @@
     <color name="colorPrimary">#393f4d</color>
     <color name="colorPrimaryDark">#1d1e22</color>
     <color name="colorAccent">#feda6a</color>
-    <color name="silver_fox">#d4d4dc</color>
+    <color name="focusAccent">#d4d4dc</color>
+
+    <color name="selectedButton">#FFFFFF</color>
+    <color name="unSelectedButton">#A9A9A9</color>
+    <color name="importantButton">#feda6a</color>
 </resources>

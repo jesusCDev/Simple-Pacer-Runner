@@ -1,6 +1,5 @@
 package com.allvens.simplepacerrunner.permission_manager;
 
-import android.Manifest;
 import android.Manifest.permission;
 import android.app.Activity;
 import android.content.Context;

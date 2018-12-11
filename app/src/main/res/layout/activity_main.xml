@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/home_Level"
-            android:textColor="@color/silver_fox"
+            android:textColor="@color/focusAccent"
             android:textSize="50sp" />
     </LinearLayout>
 
