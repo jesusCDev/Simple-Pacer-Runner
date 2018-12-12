@@ -77,7 +77,6 @@ public class LogActivity extends AppCompatActivity {
         builder.setItems(manager.get_AllSessionsNames(), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 manager.set_CurrentEntry(which);
-
                 manager.update_Screen(false);
             }
         });
@@ -85,7 +84,7 @@ public class LogActivity extends AppCompatActivity {
     }
 
     public void btnAction_DeleteAllSessions(View view){
-        if(manager.get_CurrentSelectedEntry() != null){
+        if(manager.get_AllSessions().size() > 0){
             manager.delete_AllSessions();
             manager.set_CurrentSelectedEntryToNull();
 
@@ -102,6 +101,7 @@ public class LogActivity extends AppCompatActivity {
             unchangedSession = manager.get_CurrentSelectedEntry();
 
             manager.delete_Session();
+            manager.set_CurrentSelectedEntryToNull();
             manager.update_Screen(true);
 
             Snackbar snackbar = Snackbar

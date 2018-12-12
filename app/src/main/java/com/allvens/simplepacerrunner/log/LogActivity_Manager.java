@@ -28,6 +28,9 @@ public class LogActivity_Manager {
                                             Button selectSession){
         ui_manager = new LogActivity_UI_Manager(context, lc_log_Sessions, bestRun, totalDistanceRan, totalRunsRan,
                 currentSessionDate, currentSessionStage, currentSessionLevel, currentSessionDistance, selectSession);
+
+        ui_manager.set_AllSessionData(get_AllSessions());
+        ui_manager.update_DataSessionChanged();
     }
 
     public void open_Database(){
@@ -45,13 +48,10 @@ public class LogActivity_Manager {
 
             ui_manager.update_DataSessionChanged();
         }else{
+            ui_manager.set_CurrentSession(currentSelectedEntry);
             ui_manager.update_SelectedSessionView();
         }
     }
-
-    /****************************************
-     /**** Data Management
-     ****************************************/
 
     public void set_CurrentEntry(int pos){
         currentSelectedEntry = dsWrapper.get_AllSessions().get(pos);

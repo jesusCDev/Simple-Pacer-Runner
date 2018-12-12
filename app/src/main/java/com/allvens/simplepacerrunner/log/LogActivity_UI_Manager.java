@@ -8,9 +8,7 @@ import com.allvens.simplepacerrunner.R;
 import com.allvens.simplepacerrunner.session_data.DataSession;
 import com.github.mikephil.charting.charts.LineChart;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class LogActivity_UI_Manager {
@@ -56,14 +54,17 @@ public class LogActivity_UI_Manager {
         this.currentSession = currentSession;
     }
 
-
-    // todo change this
     public void update_DataSessionChanged(){
-        if(currentSession != null) {
-            update_SelectedSessionView();
+        if(allSessions.size() > 0){
             update_SessionsView();
+            if(currentSession != null) {
+                update_SelectedSessionView();
+            }else{
+                update_NoSelectedSessionInfo();
+            }
         }else{
-            update_NoSessionInfo();
+            update_NoSelectedSessionInfo();
+            update_NoSessionsInfo();
         }
         update_Chart();
     }
@@ -83,17 +84,19 @@ public class LogActivity_UI_Manager {
         totalRunsRan.setText(context.getResources().getString(R.string.log_SessionsRan) + " " + get_TotalRun());
     }
 
-    private void update_NoSessionInfo(){
+    private void update_NoSelectedSessionInfo(){
         currentSessionDate.setText(context.getResources().getString(R.string.log_SelectSessionDate) + " None");
         currentSessionStage.setText(context.getResources().getString(R.string.log_SelectSessionStage) + " None");
         currentSessionLevel.setText(context.getResources().getString(R.string.log_SelectSessionLevel) + " None");
         currentSessionDistance.setText(context.getResources().getString(R.string.log_SelectSessionDistance) + " : 0 meters");
 
+        selectSession.setText(context.getResources().getString(R.string.log_SelectSession));
+    }
+
+    private void update_NoSessionsInfo(){
         bestRun.setText(context.getResources().getString(R.string.log_BestSessions) + " None");
         totalDistanceRan.setText(context.getResources().getString(R.string.log_TotalDistance) + " 0 meters");
         totalRunsRan.setText(context.getResources().getString(R.string.log_SessionsRan) + " 0");
-
-        selectSession.setText(context.getResources().getString(R.string.log_SelectSession));
     }
 
     private void update_Chart(){
