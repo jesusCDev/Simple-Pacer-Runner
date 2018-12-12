@@ -1,7 +1,9 @@
-package com.allvens.simplepacerrunner.home;
+package com.allvens.simplepacerrunner.home_manager.Pacer_Manager;
 
 import android.os.Handler;
-import com.allvens.simplepacerrunner.session_data.DataSession;
+
+import com.allvens.simplepacerrunner.home_manager.Home_UI_Manager;
+import com.allvens.simplepacerrunner.data_manager.session_database.DataSession;
 
 import java.util.Calendar;
 
@@ -11,26 +13,29 @@ public class Pacer_Timer {
     private Runnable timerRunnable;
     private long startTime = 0;
 
-    private UI_Feedback ui;
+    private Home_UI_Manager ui_manager;
     private Pacer pacer;
+
+    /****************************************
+     /**** SETTERS
+     ****************************************/
 
     public Pacer_Timer(){
         pacer = new Pacer();
     }
 
-    public DataSession get_Session(){
-        return new DataSession(Calendar.getInstance().getTime().toString(), pacer.get_CurrentDistance(),
-                pacer.get_CurrentStage(), pacer.get_CurrentLevelTracker());
+    public void set_UIFeedBack(Home_UI_Manager ui){
+        this.ui_manager = ui;
     }
 
-    public void set_UIFeedBack(UI_Feedback ui){
-        this.ui = ui;
-    }
+    /****************************************
+     /**** TIMER METHODS
+     ****************************************/
 
     public void create_timer() {
-        // basic ui
-        ui.set_Stage(Integer.toString((pacer.get_CurrentStage() + 1)));
-        ui.set_Level(Integer.toString(pacer.get_CurrentLevelTracker() + 1));
+        // basic ui_manager
+        ui_manager.set_Stage(Integer.toString((pacer.get_CurrentStage() + 1)));
+        ui_manager.set_Level(Integer.toString(pacer.get_CurrentLevelTracker() + 1));
 
         final int time_forLevel = pacer.get_CurrentTimePerLevel();
 
@@ -43,16 +48,16 @@ public class Pacer_Timer {
                 long time_tracker = (time_forLevel - millis);
                 long seconds = (time_tracker / 1000);
 
-                // update ui
-                ui.set_Time(seconds, (time_tracker - (seconds * 1000)));
+                // update ui_manager
+                ui_manager.set_Time(seconds, (time_tracker - (seconds * 1000)));
 
                 timerHandler.postDelayed(this, 100);
                 if(time_tracker < 0){
 
-                    ui.vibrate();
+                    ui_manager.vibrate();
+                    ui_manager.play_basicSound();
 
                     if(pacer.get_CurrentStage() != 20 || pacer.get_CurrentLevelTracker() != 15){
-                        ui.play_basicSound();
 
                         if(pacer.get_CurrentLevelTracker() != pacer.get_CurrentLevelValue()){
                             pacer.set_CurrentLevelTracker((pacer.get_CurrentLevelTracker() + 1));
@@ -69,8 +74,8 @@ public class Pacer_Timer {
                         create_timer();
                         start_timer();
                     }else{
-                        ui.play_StartEndSound();
-                        ui.set_Screen(UI_Feedback.SCREEN_STARTING_DONE);
+                        ui_manager.play_StartEndSound();
+                        ui_manager.set_Screen(Home_UI_Manager.SCREEN_STARTING_DONE);
                         stop_timer();
                     }
                 }
@@ -80,9 +85,11 @@ public class Pacer_Timer {
         };
     }
 
+    /********** Timer Actions **********/
+
     public void start_timer(){
-        ui.play_basicSound();
-        ui.vibrate();
+        ui_manager.play_basicSound();
+        ui_manager.vibrate();
 
         startTime = System.currentTimeMillis();
         timerHandler.postDelayed(timerRunnable, 0);
@@ -98,5 +105,14 @@ public class Pacer_Timer {
         }catch (NullPointerException e){
             e.printStackTrace();
         }
+    }
+
+    /****************************************
+     /**** SESSIONS METHODS
+     ****************************************/
+
+    public DataSession get_Session(){
+        return new DataSession(Calendar.getInstance().getTime().toString(), pacer.get_CurrentDistance(),
+                pacer.get_CurrentStage(), pacer.get_CurrentLevelTracker());
     }
 }

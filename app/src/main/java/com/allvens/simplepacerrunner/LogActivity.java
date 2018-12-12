@@ -2,23 +2,21 @@ package com.allvens.simplepacerrunner;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.allvens.simplepacerrunner.log.LogActivity_Manager;
-import com.allvens.simplepacerrunner.session_data.DataSession;
+import com.allvens.simplepacerrunner.log_manager.LogActivity_Manager;
+import com.allvens.simplepacerrunner.data_manager.session_database.DataSession;
 import com.github.mikephil.charting.charts.LineChart;
 
 public class LogActivity extends AppCompatActivity {
 
-
+    // TODO FIX STRINGS HERE
     private LogActivity_Manager manager;
     private DataSession unchangedSession;
     private LinearLayout ll_Log_Background;
@@ -46,8 +44,8 @@ public class LogActivity extends AppCompatActivity {
 
         /********** Manager **********/
         manager = new LogActivity_Manager(this);
-        manager.set_CurrentSelectedEntryToNull();
 
+        manager.set_CurrentSelectedEntryToNull();
         manager.setUp_LogActivity_UIManager(this, lc_log_Sessions, tv_Log_BestRun, tv_Log_TotalDistanceCover,
                 tv_Log_TotalRuns, tv_log_CurrentSessionDate, tv_log_CurrentSessionStage, tv_log_CurrentSessionLevel, tv_log_CurrentSessionDistance,
                 btn_Log_SelectSession);
@@ -60,15 +58,15 @@ public class LogActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
         manager.close_Database();
     }
 
-
     /****************************************
-     /**** Button Actions
+     /**** BUTTON ACTIONS
      ****************************************/
+
     public void btnAction_SelectSession(View view){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(LogActivity.this);
@@ -85,38 +83,59 @@ public class LogActivity extends AppCompatActivity {
 
     public void btnAction_DeleteAllSessions(View view){
         if(manager.get_AllSessions().size() > 0){
-            manager.delete_AllSessions();
-            manager.set_CurrentSelectedEntryToNull();
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which){
+                        case DialogInterface.BUTTON_POSITIVE:
+                            new Toast(LogActivity.this).makeText(LogActivity.this, "All Sessions Deleted", Toast.LENGTH_SHORT).show();
+                            manager.delete_AllSessions();
+                            manager.set_CurrentSelectedEntryToNull();
+                            manager.update_Screen(true);
+                            break;
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            new Toast(LogActivity.this).makeText(LogActivity.this, "Nothing was deleted", Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                }
+            };
 
-            manager.update_Screen(true);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Are you sure you want to delete all sessions?").setPositiveButton("Yes", dialogClickListener)
+                    .setNegativeButton("No", dialogClickListener).show();
         }else{
             new Toast(this).makeText(this,"No Data to Delete", Toast.LENGTH_SHORT).show();
         }
     }
 
-    // todo undo in the same pos (save values and put them in specific pos of database)
     public void btnAction_DeleteSelectedSection(View view) {
-
         if(manager.get_CurrentSelectedEntry() != null){
-            unchangedSession = manager.get_CurrentSelectedEntry();
-
-            manager.delete_Session();
-            manager.set_CurrentSelectedEntryToNull();
-            manager.update_Screen(true);
-
-            Snackbar snackbar = Snackbar
-                    .make(ll_Log_Background, unchangedSession.getDate() + " Session Deleted.", Snackbar.LENGTH_LONG)
-                    .setAction("undo", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            manager.add_Session(unchangedSession);
-
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which){
+                        case DialogInterface.BUTTON_POSITIVE:
+                            new Toast(LogActivity.this).makeText(LogActivity.this, "Session Deleted", Toast.LENGTH_SHORT).show();
+                            unchangedSession = manager.get_CurrentSelectedEntry();
+                            manager.delete_Session();
+                            manager.set_CurrentSelectedEntryToNull();
                             manager.update_Screen(true);
-                        }
-                    });
-            snackbar.show();
+                            break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            new Toast(LogActivity.this).makeText(LogActivity.this, "Nothing was deleted", Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                }
+            };
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Are you sure you want to delete current session?").setPositiveButton("Yes", dialogClickListener)
+                    .setNegativeButton("No", dialogClickListener).show();
         }else{
             new Toast(this).makeText(this,"No Data to Delete", Toast.LENGTH_SHORT).show();
         }
+
+
     }
 }

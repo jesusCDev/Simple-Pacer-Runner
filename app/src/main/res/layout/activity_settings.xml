@@ -22,7 +22,7 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -36,7 +36,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Switch
-            android:id="@+id/switch1"
+            android:id="@+id/s_settings_Sound"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -67,7 +67,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Switch
-            android:id="@+id/switch1"
+            android:id="@+id/s_settings_Vibrate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"

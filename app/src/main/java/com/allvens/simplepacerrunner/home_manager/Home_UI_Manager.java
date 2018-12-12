@@ -1,4 +1,4 @@
-package com.allvens.simplepacerrunner.home;
+package com.allvens.simplepacerrunner.home_manager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -14,9 +14,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.allvens.simplepacerrunner.R;
-import com.allvens.simplepacerrunner.settings.Settings_Values;
+import com.allvens.simplepacerrunner.data_manager.Prefs_Values;
+import com.allvens.simplepacerrunner.home_manager.Pacer_Manager.Pacer_Timer;
 
-public class UI_Feedback {
+public class Home_UI_Manager {
     private LinearLayout ll_home_TimerPresentation;
 
     private TextView tv_startAndCountDown;
@@ -39,13 +40,25 @@ public class UI_Feedback {
     Handler timerHandler;
     private Runnable timerRunnable;
 
-    public void cancel_CountdownTimer(){
-        try{
-            timerHandler.removeCallbacks(timerRunnable);
-        }catch (NullPointerException e){
-            e.printStackTrace();
-        }
+    /****************************************
+     /**** SETTERS
+     ****************************************/
+    public Home_UI_Manager(Context context, LinearLayout ll_home_TimerPresentation){
+        this.context = context;
+        this.ll_home_TimerPresentation = ll_home_TimerPresentation;
     }
+
+    public void set_Vibrator(Vibrator v){
+        this.v = v;
+    }
+
+    public void set_SharedPreferences(SharedPreferences sharedPrefs){
+        this.sharedPrefs = sharedPrefs;
+    }
+
+    /****************************************
+     /**** COUNTDOWN METHODS
+     ****************************************/
 
     public void start_CountDown(final Pacer_Timer pt, final ImageButton btn_LogAndSave, final ImageButton btn_PlayAndPause){
 
@@ -84,6 +97,18 @@ public class UI_Feedback {
         timerHandler.postDelayed(timerRunnable, 0);
     }
 
+    public void cancel_CountdownTimer(){
+        try{
+            timerHandler.removeCallbacks(timerRunnable);
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+    }
+
+    /****************************************
+     /**** SCREEN CHANGERS
+     ****************************************/
+
     public void set_Screen(int screen){
         if(screen == SCREEN_STARTING_COUNTDOWN){
             create_StartingCountdownScreen();
@@ -95,16 +120,18 @@ public class UI_Feedback {
 
     }
 
-    private void create_FinishedScreen(){
+    /********** Screen Types **********/
+
+    private void create_StartingCountdownScreen(){
         clear_Layout();
 
-        tv_finished = new TextView(context);
-        tv_finished.setText(context.getResources().getString(R.string.home_Finished));
-        tv_finished.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        tv_startAndCountDown = new TextView(context);
+        tv_startAndCountDown.setText(context.getResources().getString(R.string.home_Start));
+        tv_startAndCountDown.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
-        setStyle(tv_finished, R.style.TS_StartingCountDown_Ending);
+        setStyle(tv_startAndCountDown, R.style.TS_StartingCountDown_Title);
 
-        ll_home_TimerPresentation.addView(tv_finished);
+        ll_home_TimerPresentation.addView(tv_startAndCountDown);
     }
 
     private void create_RunningScreen(){
@@ -123,6 +150,20 @@ public class UI_Feedback {
         ll_home_TimerPresentation.addView(tv_level);
     }
 
+    private void create_FinishedScreen(){
+        clear_Layout();
+
+        tv_finished = new TextView(context);
+        tv_finished.setText(context.getResources().getString(R.string.home_Finished));
+        tv_finished.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+
+        setStyle(tv_finished, R.style.TS_StartingCountDown_Ending);
+
+        ll_home_TimerPresentation.addView(tv_finished);
+    }
+
+    /********** Screen Fixer Methods **********/
+
     private void setStyle(TextView tv, int style){
         if (Build.VERSION.SDK_INT < 23) {
             tv.setTextAppearance(context, style);
@@ -131,37 +172,11 @@ public class UI_Feedback {
         }
     }
 
-    private void create_StartingCountdownScreen(){
-        clear_Layout();
-
-        tv_startAndCountDown = new TextView(context);
-        tv_startAndCountDown.setText(context.getResources().getString(R.string.home_Start));
-        tv_startAndCountDown.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-
-        setStyle(tv_startAndCountDown, R.style.TS_StartingCountDown_Title);
-
-        ll_home_TimerPresentation.addView(tv_startAndCountDown);
-    }
-
     private void clear_Layout(){
         ll_home_TimerPresentation.removeAllViews();
     }
 
-    public UI_Feedback(LinearLayout ll_home_TimerPresentation){
-        this.ll_home_TimerPresentation = ll_home_TimerPresentation;
-    }
-
-    public void set_Context(Context context){
-        this.context = context;
-    }
-
-    public void set_Vibrator(Vibrator v){
-        this.v = v;
-    }
-
-    public void set_SharedPreferences(SharedPreferences sharedPrefs){
-        this.sharedPrefs = sharedPrefs;
-    }
+    /********** Running Screen Ui Updaters **********/
 
     public void set_Stage(String str){
         tv_stage.setText(context.getResources().getString(R.string.home_Stage) + " " + str);
@@ -175,6 +190,8 @@ public class UI_Feedback {
         tv_time.setText(seconds + "." + fix_Time(miliSec));
     }
 
+    /********** Time Look Fixer **********/
+
     private String fix_Time(long mili){
         if(Long.toString(mili).length() < 3){
             return mili + "0";
@@ -182,20 +199,24 @@ public class UI_Feedback {
         return Long.toString(mili);
     }
 
+    /****************************************
+     /**** Feedback Methods
+     ****************************************/
+
     public void play_basicSound(){
-        if(sharedPrefs.getBoolean(Settings_Values.KEY_PREF_SOUND_SWITCH, true)){
+        if(sharedPrefs.getBoolean(Prefs_Values.SOUND_ON, true)){
             toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 100);
         }
     }
 
     public void play_StartEndSound(){
-        if(sharedPrefs.getBoolean(Settings_Values.KEY_PREF_SOUND_SWITCH, true)){
+        if(sharedPrefs.getBoolean(Prefs_Values.SOUND_ON, true)){
             toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 100);
         }
     }
 
     public void vibrate(){
-        if(sharedPrefs.getBoolean(Settings_Values.KEY_PREF_VIBRATE_SWITCH, true)){
+        if(sharedPrefs.getBoolean(Prefs_Values.VIBRATE_ON, true)){
            // Vibrate for 500 milliseconds
            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
               v.vibrate(VibrationEffect.createOneShot(500,VibrationEffect.DEFAULT_AMPLITUDE));

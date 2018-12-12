@@ -1,4 +1,4 @@
-package com.allvens.simplepacerrunner.home;
+package com.allvens.simplepacerrunner.home_manager.Pacer_Manager;
 
 public class Pacer {
 

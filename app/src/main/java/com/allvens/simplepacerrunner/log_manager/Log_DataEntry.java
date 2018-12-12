@@ -1,5 +1,8 @@
-package com.allvens.simplepacerrunner.log;
+package com.allvens.simplepacerrunner.log_manager;
 
+/**
+ * Line Chart - Data Entry
+ */
 public class Log_DataEntry {
 
     private float position;

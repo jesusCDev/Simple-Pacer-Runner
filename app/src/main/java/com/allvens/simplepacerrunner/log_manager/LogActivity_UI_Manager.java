@@ -1,16 +1,17 @@
-package com.allvens.simplepacerrunner.log;
+package com.allvens.simplepacerrunner.log_manager;
 
 import android.content.Context;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.allvens.simplepacerrunner.R;
-import com.allvens.simplepacerrunner.session_data.DataSession;
+import com.allvens.simplepacerrunner.data_manager.session_database.DataSession;
 import com.github.mikephil.charting.charts.LineChart;
 
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO FIX STRING PROBLEM HERE
 public class LogActivity_UI_Manager {
 
     private Context context;
@@ -28,6 +29,10 @@ public class LogActivity_UI_Manager {
 
     private DataSession currentSession;
     private ArrayList<DataSession> allSessions = new ArrayList<>();
+
+    /****************************************
+     /**** SETTERS
+     ****************************************/
 
     public LogActivity_UI_Manager(Context context, LineChart lc_log_Sessions, TextView bestRun, TextView totalDistanceRan, TextView totalRunsRan, 
                                   TextView currentSessionDate, TextView currentSessionStage, TextView currentSessionLevel, TextView currentSessionDistance,
@@ -54,6 +59,10 @@ public class LogActivity_UI_Manager {
         this.currentSession = currentSession;
     }
 
+    /****************************************
+     /**** SCREEN UPDATER
+     ****************************************/
+
     public void update_DataSessionChanged(){
         if(allSessions.size() > 0){
             update_SessionsView();
@@ -68,6 +77,8 @@ public class LogActivity_UI_Manager {
         }
         update_Chart();
     }
+
+    /********** Setter - Info **********/
 
     public void update_SelectedSessionView(){
         currentSessionDate.setText(context.getResources().getString(R.string.log_SelectSessionDate) + " " + currentSession.getDate());
@@ -84,6 +95,8 @@ public class LogActivity_UI_Manager {
         totalRunsRan.setText(context.getResources().getString(R.string.log_SessionsRan) + " " + get_TotalRun());
     }
 
+    /********** Setter - No Info Available **********/
+
     private void update_NoSelectedSessionInfo(){
         currentSessionDate.setText(context.getResources().getString(R.string.log_SelectSessionDate) + " None");
         currentSessionStage.setText(context.getResources().getString(R.string.log_SelectSessionStage) + " None");
@@ -99,26 +112,7 @@ public class LogActivity_UI_Manager {
         totalRunsRan.setText(context.getResources().getString(R.string.log_SessionsRan) + " 0");
     }
 
-    private void update_Chart(){
-        lineChart_Manager.reset_Chart();
-        lineChart_Manager.setUp_ChartValues();
-        lineChart_Manager.create_Chart(convert_SessionsToDataEntries());
-    }
-
-    private ArrayList<Log_DataEntry> convert_SessionsToDataEntries(){
-        ArrayList<Log_DataEntry> dataEntry = new ArrayList<>();
-
-        int iter = 0;
-        if(allSessions.size() > 20){
-            iter = (allSessions.size() - 20);
-        }
-
-        for(int i = iter; i < allSessions.size(); i++){
-            dataEntry.add(new Log_DataEntry(i, allSessions.get(i).getDistance()));
-        }
-
-        return dataEntry;
-    }
+    /********** Get Total Session Info **********/
 
     public int get_TotalRun(){
         return allSessions.size();
@@ -142,5 +136,30 @@ public class LogActivity_UI_Manager {
         }
 
         return Integer.toString(bestDistance);
+    }
+
+    /****************************************
+     /**** Chart Manager
+     ****************************************/
+
+    private void update_Chart(){
+        lineChart_Manager.reset_Chart();
+        lineChart_Manager.setUp_ChartValues();
+        lineChart_Manager.create_Chart(convert_SessionsToDataEntries());
+    }
+
+    private ArrayList<Log_DataEntry> convert_SessionsToDataEntries(){
+        ArrayList<Log_DataEntry> dataEntry = new ArrayList<>();
+
+        int iter = 0;
+        if(allSessions.size() > 20){
+            iter = (allSessions.size() - 20);
+        }
+
+        for(int i = iter; i < allSessions.size(); i++){
+            dataEntry.add(new Log_DataEntry(i, allSessions.get(i).getDistance()));
+        }
+
+        return dataEntry;
     }
 }

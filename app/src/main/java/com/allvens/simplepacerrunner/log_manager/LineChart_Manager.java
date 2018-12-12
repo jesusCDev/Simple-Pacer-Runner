@@ -1,4 +1,4 @@
-package com.allvens.simplepacerrunner.log;
+package com.allvens.simplepacerrunner.log_manager;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 public class LineChart_Manager {
 
+    // TODO FIX STRING PROBLEM
     private LineChart lc;
     private Context context;
 
@@ -31,6 +32,14 @@ public class LineChart_Manager {
         lc.setDragEnabled(false);
         lc.setScaleEnabled(false);
         lc.getAxisRight().setEnabled(false);
+    }
+
+    private ArrayList<Entry> create_Entries(ArrayList<Log_DataEntry> currentWeekData){
+        ArrayList<Entry> yValues = new ArrayList<>();
+        for(Log_DataEntry entry: currentWeekData){
+            yValues.add(new Entry(entry.getPosition(), entry.getValue()));
+        }
+        return yValues;
     }
 
     public void create_Chart(ArrayList<Log_DataEntry> currentWeekData){
@@ -57,18 +66,5 @@ public class LineChart_Manager {
         LineData data = new LineData(dataSets);
 
         lc.setData(data);
-    }
-
-    /**
-     * Creates Entries for chart
-     * @param currentWeekData
-     * @return Entry List
-     */
-    private ArrayList<Entry> create_Entries(ArrayList<Log_DataEntry> currentWeekData){
-        ArrayList<Entry> yValues = new ArrayList<>();
-        for(Log_DataEntry entry: currentWeekData){
-            yValues.add(new Entry(entry.getPosition(), entry.getValue()));
-        }
-        return yValues;
     }
 }

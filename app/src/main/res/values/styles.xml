@@ -54,4 +54,13 @@
         <item name="android:gravity">center</item>
     </style>
 
+
+    <style name="btn_settings_DaySelected">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="btn_settings_DayUnSelected">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
 </resources>
