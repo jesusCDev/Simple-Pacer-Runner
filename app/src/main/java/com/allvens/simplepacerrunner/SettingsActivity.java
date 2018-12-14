@@ -44,6 +44,10 @@ public class SettingsActivity extends AppCompatActivity{
         sNotification.setOnCheckedChangeListener(manager.update_NotfiSettings(Prefs_Values.NOTIFICATION_ON));
     }
 
+    /****************************************
+     /**** BUTTON ACTIONS
+     ****************************************/
+
     public void btnAction_SetNotificationTime(View view){
         manager.update_NotificationTime(view);
     }

@@ -20,7 +20,6 @@ import java.util.Calendar;
 public class Notification_Receiver extends BroadcastReceiver {
 
     private int MID = 101;
-
     private String ANDROID_CHANNEL_ID = "com.android.simplepacerrunner";
     private String ANDROID_CHANNEL_NAME = "Simple Pacer Runner";
 
@@ -29,6 +28,7 @@ public class Notification_Receiver extends BroadcastReceiver {
 
         SettingsPrefs_Manager settingsPrefs = new SettingsPrefs_Manager(context);
 
+        /********** Sets up repeat function for broadcaster for set time **********/
         if (intent.getAction() != null && context != null) {
             if (intent.getAction().equalsIgnoreCase(Intent.ACTION_BOOT_COMPLETED)) {
                 Notification_Controller notiManager = new Notification_Controller(context, settingsPrefs.get_PrefSetting(Prefs_Values.NOTIFICATION_ON),
@@ -37,6 +37,7 @@ public class Notification_Receiver extends BroadcastReceiver {
             }
         }
 
+        /********** Runs Only On Days Selected **********/
         if(settingsPrefs.get_NotificationDayValue((Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 1))){
             present_Notification(context);
         }
@@ -61,8 +62,8 @@ public class Notification_Receiver extends BroadcastReceiver {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
             return new Notification.Builder(context.getApplicationContext(), ANDROID_CHANNEL_ID)
-                    .setContentTitle("All Workouts")
-                    .setContentText("Ready To Workout")
+                    .setContentTitle(ANDROID_CHANNEL_NAME)
+                    .setContentText("Ready To Start?!")
                     .setContentIntent(pendingIntent)
                     .setSmallIcon(R.drawable.ic_drag_handle_black_24dp)
                     .setAutoCancel(true);
@@ -72,7 +73,7 @@ public class Notification_Receiver extends BroadcastReceiver {
 
             return new Notification.Builder(
                     context).setSmallIcon(R.drawable.ic_drag_handle_black_24dp)
-                    .setContentTitle("All Workouts")
+                    .setContentTitle(ANDROID_CHANNEL_NAME)
                     .setContentText("Ready To Start?!")
                     .setSound(alarmSound)
                     .setAutoCancel(true).setWhen(when)

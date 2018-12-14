@@ -23,6 +23,10 @@ public class Notification_Controller {
     private boolean notificationOn;
     private Context context;
 
+    /****************************************
+     /**** SETTERS AND GETTERS
+     ****************************************/
+
     public Notification_Controller(Context context, boolean notificationOn, int hour, int minute){
         this.context = context;
         this.notificationOn = notificationOn;
@@ -42,6 +46,11 @@ public class Notification_Controller {
         return minute;
     }
 
+    public void set_Time(int hour, int min) {
+        this.hour = hour;
+        this.minute = min;
+    }
+
     public void update_Time(int hour, int minute){
         this.hour = hour;
         this.minute = minute;
@@ -52,9 +61,20 @@ public class Notification_Controller {
         }
     }
 
+    private NotificationManager getManager() {
+        if (mManager == null) {
+            mManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        }
+        return mManager;
+    }
+
+    /****************************************
+     /**** NOTIFICATION - EDITOR
+     ****************************************/
+
     private NotificationManager mManager;
-    private String ANDROID_CHANNEL_ID = "com.android.AllWorkouts";
-    private String ANDROID_CHANNEL_NAME = "All Workouts";
+    private String ANDROID_CHANNEL_ID = "com.android.simplepacerrunner";
+    private String ANDROID_CHANNEL_NAME = "Simple Pacer Runner";
     private int MID = 101;
 
     public void create_Notification(){
@@ -89,13 +109,6 @@ public class Notification_Controller {
                 PackageManager.DONT_KILL_APP);
     }
 
-    private NotificationManager getManager() {
-        if (mManager == null) {
-            mManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        }
-        return mManager;
-    }
-
     public void cancel_Notification(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationManager mNotificationManager =
@@ -114,10 +127,5 @@ public class Notification_Controller {
         pm.setComponentEnabledSetting(receiver,
                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                 PackageManager.DONT_KILL_APP);
-    }
-
-    public void set_Time(int hour, int min) {
-        this.hour = hour;
-        this.minute = min;
     }
 }

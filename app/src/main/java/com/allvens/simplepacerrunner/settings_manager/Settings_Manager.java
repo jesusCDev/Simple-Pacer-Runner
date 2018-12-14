@@ -33,10 +33,58 @@ public class Settings_Manager {
                 settingsPrefs.get_NotifiHour(), settingsPrefs.get_NotifiMinute());
     }
 
+    /****************************************
+     /**** SETTING - SWITCH VALUES
+     ****************************************/
     public void setUp_SettingsValues(Switch sVibrate, Switch sSound, Switch sNotification) {
         sVibrate.setChecked(settingsPrefs.get_PrefSetting(Prefs_Values.VIBRATE_ON));
         sSound.setChecked(settingsPrefs.get_PrefSetting(Prefs_Values.SOUND_ON));
         sNotification.setChecked(settingsPrefs.get_PrefSetting(Prefs_Values.NOTIFICATION_ON));
+    }
+
+    public CompoundButton.OnCheckedChangeListener update_PrefSettings(final String prefKey){
+        return new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                settingsPrefs.update_PrefSetting(prefKey, isChecked);
+            }
+        };
+    }
+
+    /****************************************
+     /**** SETTINGS - NOTIFICATION
+     ****************************************/
+
+    /********** Setter Methods **********/
+
+    public void setUp_TimeDisplay(TextView tvTime) {
+        ui_manager.update_TimeStamp(tvTime, notiManager.get_Hour(), notiManager.get_Min());
+        notiManager.set_Time(notiManager.get_Hour(), notiManager.get_Min());
+    }
+
+    public void setUP_DailyNotificationBtns(Button btnSu, Button btnM, Button btnTu, Button btnW, Button btnTh, Button btnF, Button btnSa) {
+        ui_manager.set_DailyNotificationBtns(btnSu, btnM, btnTu, btnW, btnTh, btnF, btnSa);
+        ui_manager.update_DailyNotificationColors(settingsPrefs.get_NotificationDayValue(0), settingsPrefs.get_NotificationDayValue(1),
+                settingsPrefs.get_NotificationDayValue(2), settingsPrefs.get_NotificationDayValue(3), settingsPrefs.get_NotificationDayValue(4),
+                settingsPrefs.get_NotificationDayValue(5), settingsPrefs.get_NotificationDayValue(6));
+    }
+
+    /********** Update Methods - Turn On/Off - Days - Time **********/
+
+    public CompoundButton.OnCheckedChangeListener update_NotfiSettings(final String prefKey){
+        return new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                settingsPrefs.update_PrefSetting(prefKey, isChecked);
+
+                notiManager.set_NotificationOn(isChecked);
+                if(isChecked){
+                    notiManager.create_Notification();
+                }else{
+                    notiManager.cancel_Notification();
+                }
+            }
+        };
     }
 
     public void update_NotificationTime(final View view) {
@@ -88,42 +136,5 @@ public class Settings_Manager {
         }
         settingsPrefs.update_NotificationDay(dayChanged);
         ui_manager.update_DailyNotificationBtnStyle(btn, settingsPrefs.get_NotificationDayValue(dayChanged));
-    }
-
-    public CompoundButton.OnCheckedChangeListener update_PrefSettings(final String prefKey){
-        return new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                settingsPrefs.update_PrefSetting(prefKey, isChecked);
-            }
-        };
-    }
-
-    public CompoundButton.OnCheckedChangeListener update_NotfiSettings(final String prefKey){
-        return new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                settingsPrefs.update_PrefSetting(prefKey, isChecked);
-
-                notiManager.set_NotificationOn(isChecked);
-                if(isChecked){
-                    notiManager.create_Notification();
-                }else{
-                    notiManager.cancel_Notification();
-                }
-            }
-        };
-    }
-
-    public void setUp_TimeDisplay(TextView tvTime) {
-        ui_manager.update_TimeStamp(tvTime, notiManager.get_Hour(), notiManager.get_Min());
-        notiManager.set_Time(notiManager.get_Hour(), notiManager.get_Min());
-    }
-
-    public void setUP_DailyNotificationBtns(Button btnSu, Button btnM, Button btnTu, Button btnW, Button btnTh, Button btnF, Button btnSa) {
-        ui_manager.set_DailyNotificationBtns(btnSu, btnM, btnTu, btnW, btnTh, btnF, btnSa);
-        ui_manager.update_DailyNotificationColors(settingsPrefs.get_NotificationDayValue(0), settingsPrefs.get_NotificationDayValue(1),
-                settingsPrefs.get_NotificationDayValue(2), settingsPrefs.get_NotificationDayValue(3), settingsPrefs.get_NotificationDayValue(4),
-                settingsPrefs.get_NotificationDayValue(5), settingsPrefs.get_NotificationDayValue(6));
     }
 }
