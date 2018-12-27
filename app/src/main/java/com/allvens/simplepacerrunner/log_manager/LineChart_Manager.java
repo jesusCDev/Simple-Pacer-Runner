@@ -34,15 +34,15 @@ public class LineChart_Manager {
         lc.getAxisRight().setEnabled(false);
     }
 
-    private ArrayList<Entry> create_Entries(ArrayList<Log_DataEntry> currentWeekData){
+    private ArrayList<Entry> create_Entries(ArrayList<LinChart_DataEntry> currentWeekData){
         ArrayList<Entry> yValues = new ArrayList<>();
-        for(Log_DataEntry entry: currentWeekData){
+        for(LinChart_DataEntry entry: currentWeekData){
             yValues.add(new Entry(entry.getPosition(), entry.getValue()));
         }
         return yValues;
     }
 
-    public void create_Chart(ArrayList<Log_DataEntry> currentWeekData){
+    public void create_Chart(ArrayList<LinChart_DataEntry> currentWeekData){
 
         lc.getXAxis().setDrawLabels(false);
         lc.getXAxis().setTextColor(ContextCompat.getColor(context, R.color.focusAccent));

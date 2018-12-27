@@ -3,12 +3,12 @@ package com.allvens.simplepacerrunner.log_manager;
 /**
  * Line Chart - Data Entry
  */
-public class Log_DataEntry {
+public class LinChart_DataEntry {
 
     private float position;
     private float value;
 
-    public Log_DataEntry(int position, float value){
+    public LinChart_DataEntry(int position, float value){
         this.position = position;
         this.value = value;
     }

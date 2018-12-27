@@ -148,8 +148,8 @@ public class LogActivity_UI_Manager {
         lineChart_Manager.create_Chart(convert_SessionsToDataEntries());
     }
 
-    private ArrayList<Log_DataEntry> convert_SessionsToDataEntries(){
-        ArrayList<Log_DataEntry> dataEntry = new ArrayList<>();
+    private ArrayList<LinChart_DataEntry> convert_SessionsToDataEntries(){
+        ArrayList<LinChart_DataEntry> dataEntry = new ArrayList<>();
 
         int iter = 0;
         if(allSessions.size() > 20){
@@ -157,7 +157,7 @@ public class LogActivity_UI_Manager {
         }
 
         for(int i = iter; i < allSessions.size(); i++){
-            dataEntry.add(new Log_DataEntry(i, allSessions.get(i).getDistance()));
+            dataEntry.add(new LinChart_DataEntry(i, allSessions.get(i).getDistance()));
         }
 
         return dataEntry;

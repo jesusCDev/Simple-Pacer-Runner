@@ -1,5 +1,6 @@
 package com.allvens.simplepacerrunner;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.allvens.simplepacerrunner.data_manager.Prefs_Values;
+import com.allvens.simplepacerrunner.settings_manager.Documentation.Constants_OpenDocumentation;
 import com.allvens.simplepacerrunner.settings_manager.Settings_Manager;
 
 public class SettingsActivity extends AppCompatActivity{
@@ -47,6 +49,29 @@ public class SettingsActivity extends AppCompatActivity{
     /****************************************
      /**** BUTTON ACTIONS
      ****************************************/
+
+
+
+    public void btnAction_ShowDocumentation(View view){
+        String value;
+        switch (view.getId()){
+            case R.id.btn_settings__openSource:
+                value = Constants_OpenDocumentation.OPEN_SOURCE;
+                break;
+
+            case R.id.btn_settings_TermsOfUse:
+                value = Constants_OpenDocumentation.TERMS_OF_USE;
+                break;
+
+            default:
+                value = Constants_OpenDocumentation.PRIVACY_POLICY;
+                break;
+
+        }
+        Intent intent = new Intent(this, Settings_DocActivity.class);
+        intent.putExtra(Constants_OpenDocumentation.CHOSEN_DOCUMENTATION, value);
+        startActivity(intent);
+    }
 
     public void btnAction_SetNotificationTime(View view){
         manager.update_NotificationTime(view);

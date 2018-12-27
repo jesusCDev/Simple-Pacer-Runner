@@ -224,4 +224,46 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="App Info"
+        android:textColor="@color/focusAccent"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btn_settings__openSource"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:onClick="btnAction_ShowDocumentation"
+        android:text="Open Source"
+        android:textAlignment="viewStart"
+        android:textColor="@color/importantButton"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btn_settings_TermsOfUse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:onClick="btnAction_ShowDocumentation"
+        android:text="Terms Of Use"
+        android:textAlignment="viewStart"
+        android:textColor="@color/importantButton"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btn_settings_PrivacyPolicy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:onClick="btnAction_ShowDocumentation"
+        android:text="Privacy Policy"
+        android:textAlignment="viewStart"
+        android:textColor="@color/importantButton"
+        android:textStyle="bold" />
+
 </android.widget.LinearLayout>

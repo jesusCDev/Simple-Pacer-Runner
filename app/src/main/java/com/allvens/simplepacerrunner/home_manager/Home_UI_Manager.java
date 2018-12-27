@@ -18,14 +18,12 @@ import com.allvens.simplepacerrunner.data_manager.Prefs_Values;
 import com.allvens.simplepacerrunner.home_manager.Pacer_Manager.Pacer_Timer;
 
 public class Home_UI_Manager {
+
     private LinearLayout ll_home_TimerPresentation;
-
     private TextView tv_startAndCountDown;
-
     private TextView tv_stage;
     private TextView tv_level;
     private TextView tv_time;
-
     private TextView tv_finished;
 
     private ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
