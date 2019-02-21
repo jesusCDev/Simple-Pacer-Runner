@@ -31,9 +31,9 @@ public class Home_UI_Manager {
     private SharedPreferences sharedPrefs;
     private Context context;
 
-    public static int SCREEN_STARTING_COUNTDOWN = 0;
-    public static int SCREEN_STARTING_RUNNING = 1;
-    public static int SCREEN_STARTING_DONE = 2;
+    public final static int SCREEN_STARTING_COUNTDOWN = 0;
+    public final static int SCREEN_STARTING_RUNNING = 1;
+    public final static int SCREEN_STARTING_DONE = 2;
 
     Handler timerHandler;
     private Runnable timerRunnable;
@@ -73,6 +73,7 @@ public class Home_UI_Manager {
                 long seconds = (time_tracker / 1000);
 
                 tv_startAndCountDown.setText(Long.toString(seconds + 1));
+
                 play_basicSound();
 
                 timerHandler.postDelayed(this, 1000);
@@ -209,7 +210,7 @@ public class Home_UI_Manager {
 
     public void play_StartEndSound(){
         if(sharedPrefs.getBoolean(Prefs_Values.SOUND_ON, true)){
-            toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 100);
+            toneGen1.startTone(ToneGenerator.TONE_PROP_BEEP, 100);
         }
     }
 

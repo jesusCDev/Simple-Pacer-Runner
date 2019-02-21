@@ -7,7 +7,6 @@ import android.widget.LinearLayout;
 
 import com.allvens.simplepacerrunner.settings_manager.Documentation.Constants_OpenDocumentation;
 import com.allvens.simplepacerrunner.settings_manager.Documentation.TextDocumentation_OpenSource;
-import com.allvens.simplepacerrunner.settings_manager.Documentation.TextDocumentation_PrivacyPolicy;
 import com.allvens.simplepacerrunner.settings_manager.Documentation.TextDocumentation_TermsOfService;
 
 public class Settings_DocActivity extends AppCompatActivity {
@@ -22,11 +21,8 @@ public class Settings_DocActivity extends AppCompatActivity {
             case Constants_OpenDocumentation.OPEN_SOURCE:
                 new TextDocumentation_OpenSource(this).show_Views(llContainer);
                 break;
-            case Constants_OpenDocumentation.TERMS_OF_USE:
-                new TextDocumentation_TermsOfService(this).show_Views(llContainer);
-                break;
             default:
-                new TextDocumentation_PrivacyPolicy(this).show_Views(llContainer);
+                new TextDocumentation_TermsOfService(this).show_Views(llContainer);
                 break;
         }
     }

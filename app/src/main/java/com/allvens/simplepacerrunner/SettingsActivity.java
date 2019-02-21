@@ -50,8 +50,6 @@ public class SettingsActivity extends AppCompatActivity{
      /**** BUTTON ACTIONS
      ****************************************/
 
-
-
     public void btnAction_ShowDocumentation(View view){
         String value;
         switch (view.getId()){
@@ -59,14 +57,9 @@ public class SettingsActivity extends AppCompatActivity{
                 value = Constants_OpenDocumentation.OPEN_SOURCE;
                 break;
 
-            case R.id.btn_settings_TermsOfUse:
+            default:
                 value = Constants_OpenDocumentation.TERMS_OF_USE;
                 break;
-
-            default:
-                value = Constants_OpenDocumentation.PRIVACY_POLICY;
-                break;
-
         }
         Intent intent = new Intent(this, Settings_DocActivity.class);
         intent.putExtra(Constants_OpenDocumentation.CHOSEN_DOCUMENTATION, value);

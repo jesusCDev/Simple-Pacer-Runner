@@ -38,7 +38,12 @@ public class Notification_Receiver extends BroadcastReceiver {
         }
 
         /********** Runs Only On Days Selected **********/
-        if(settingsPrefs.get_NotificationDayValue((Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 1))){
+
+        Calendar rightNow = Calendar.getInstance();
+        int rightNowHour = rightNow.get(Calendar.HOUR);
+        int rightNowMin = rightNow.get(Calendar.MINUTE);
+
+        if(settingsPrefs.get_NotificationDayValue((Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 1)) && (rightNowHour == settingsPrefs.get_NotifiHour()) && (rightNowMin == settingsPrefs.get_NotifiMinute())){
             present_Notification(context);
         }
     }
@@ -65,14 +70,14 @@ public class Notification_Receiver extends BroadcastReceiver {
                     .setContentTitle(ANDROID_CHANNEL_NAME)
                     .setContentText("Ready To Start?!")
                     .setContentIntent(pendingIntent)
-                    .setSmallIcon(R.drawable.ic_drag_handle_black_24dp)
+                    .setSmallIcon(R.drawable.ic_drag_handle_grey_24dp)
                     .setAutoCancel(true);
         }else{
             Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             long when = System.currentTimeMillis();
 
             return new Notification.Builder(
-                    context).setSmallIcon(R.drawable.ic_drag_handle_black_24dp)
+                    context).setSmallIcon(R.drawable.ic_drag_handle_grey_24dp)
                     .setContentTitle(ANDROID_CHANNEL_NAME)
                     .setContentText("Ready To Start?!")
                     .setSound(alarmSound)

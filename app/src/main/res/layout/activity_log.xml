@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_Log_Background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
     android:orientation="vertical"
     android:padding="10dp"
-    android:id="@+id/ll_Log_Background"
     android:weightSum="4"
     app:dividerPadding="10dp">
 
@@ -88,8 +88,8 @@
                 android:id="@+id/tv_log_CurrentSessionDistance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="5dp"
                 android:paddingTop="5dp"
+                android:paddingBottom="5dp"
                 android:text="@string/log_SelectSessionDistance"
                 android:textColor="@color/focusAccent"
                 android:textSize="@dimen/priority_2"

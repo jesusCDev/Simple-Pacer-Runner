@@ -27,6 +27,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        manager.cancel_CurrentSession();
+    }
+
+    @Override
     public void onResume(){
         super.onResume();
         manager.open_Database();

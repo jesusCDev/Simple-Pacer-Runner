@@ -74,7 +74,6 @@ public class Pacer_Timer {
                         create_timer();
                         start_timer();
                     }else{
-                        ui_manager.play_StartEndSound();
                         ui_manager.set_Screen(Home_UI_Manager.SCREEN_STARTING_DONE);
                         stop_timer();
                     }

@@ -153,6 +153,10 @@ public class Home_Manager {
      /**** EXTRA METHODS
      ****************************************/
 
+    public void cancel_CurrentSession(){
+        reset_Screen();
+    }
+
     private void reset_Screen(){
         btnPlayAndPause.setImageResource(R.drawable.ic_play_circle_filled_white_24dp);
         tracker_pause = false;
