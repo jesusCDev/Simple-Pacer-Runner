@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Simple Beep Test</string>
+    <string name="app_name">Simple Pacer Test</string>
 
     <string name="home_Start">Start</string>
     <string name="home_Stage">Stage:</string>
